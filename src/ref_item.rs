@@ -1,6 +1,6 @@
 //! Provider of [`RefItem`].
 
-use crate::token::Token;
+use crate::ref_token::RefToken;
 use core::mem;
 
 /// Item of dynamic borrowing iterator.
@@ -8,12 +8,12 @@ pub struct RefItem<T>(T);
 
 impl<T> RefItem<T> {
     /// Get immutable reference to underlying data.
-    pub fn get<'c: 'i, 'i>(&'c self, _: &'i Token) -> &'i T {
+    pub fn get<'c: 'i, 'i>(&'c self, _: &'i RefToken) -> &'i T {
         &self.0
     }
 
     /// Get mutable reference to underlying data.
-    pub fn get_mut<'c: 'i, 'i>(&'c mut self, _: &'i Token) -> &'i mut T {
+    pub fn get_mut<'c: 'i, 'i>(&'c mut self, _: &'i RefToken) -> &'i mut T {
         &mut self.0
     }
 

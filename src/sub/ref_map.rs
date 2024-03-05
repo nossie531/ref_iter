@@ -1,10 +1,10 @@
 //! Provider of [`RefMap`].
 
-use crate::token::Token;
+use crate::ref_token::RefToken;
 use crate::util::msg;
 use crate::RefIterator;
 
-/// An Iterator that maps dynamic borrowing elements.
+/// An iterator that maps dynamic borrowing elements.
 ///
 /// This struct is created by the [`RefIterator::ref_map`].
 #[must_use = msg::iter_must_use!()]
@@ -23,16 +23,15 @@ impl<I, F> RefMap<I, F> {
     }
 }
 
-impl<T, I, F> Iterator for RefMap<I, F>
+impl<'a, T, I, F> Iterator for RefMap<I, F>
 where
-    I: RefIterator,
-    F: FnMut(I::Item, &Token) -> T,
+    I: RefIterator<'a>,
+    F: FnMut(I::Item, &RefToken) -> T,
 {
     type Item = T;
 
     fn next(&mut self) -> Option<Self::Item> {
-        let token = Token::new();
-        self.iter.next().map(|x| (self.f)(x, &token))
+        self.iter.next().map(|x| (self.f)(x, self.iter.ref_token()))
     }
 
     fn size_hint(&self) -> (usize, Option<usize>) {

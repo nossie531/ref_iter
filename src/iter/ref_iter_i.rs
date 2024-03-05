@@ -1,9 +1,10 @@
 //! Provider of [`RefIterI`].
 
-use crate::util::{lt, msg};
-use crate::{RefItem, RefIterator};
+use crate::util::{lifetime, msg};
+use crate::{RefItem, RefIterator, RefToken};
 use core::any::Any;
 use core::cell::Ref;
+use core::ops::Deref;
 
 /// Static typing iterator wrapper for [`Ref`].
 ///
@@ -12,33 +13,39 @@ use core::cell::Ref;
 /// ```
 /// # use core::cell::RefCell;
 /// # use ref_iter::iter::RefIterI;
-/// # use ref_iter::RefIterator;
+/// # use ref_iter::{RefIterator, RefToken};
 /// #
 /// let samples = vec![1, 2, 3];
-/// let src = RefCell::new(samples.clone());
-/// let iter = RefIterI::new(src.borrow(), |x| x.iter());
-/// let iter = iter.ref_map(|x, t| *x.get(t));
-/// assert!(iter.eq(samples));
+/// let src = RefCell::new(samples);
+/// let token = RefToken::new();
+/// let mut iter = RefIterI::new(src.borrow(), &token, |x| x.iter());
+/// assert_eq!(iter.next().unwrap().get(&token), &1);
+/// assert_eq!(iter.next().unwrap().get(&token), &2);
+/// assert_eq!(iter.next().unwrap().get(&token), &3);
 /// ```
 #[must_use = msg::iter_must_use!()]
 pub struct RefIterI<'a, I> {
     /// Dynamic borrowing source.
-    _src: Ref<'a, dyn Any>,
+    #[allow(dead_code)]
+    refs: Ref<'a, dyn Any>,
+    /// Reference token.
+    token: &'a RefToken,
     /// Iterator generated from source.
     iter: I,
 }
 
 impl<'a, I> RefIterI<'a, I> {
     /// Create a new value.
-    pub fn new<S, F>(src: Ref<'a, S>, f: F) -> Self
+    pub fn new<S, F>(refs: Ref<'a, S>, token: &'a RefToken, f: F) -> Self
     where
         S: Any,
         F: Fn(&'a S) -> I,
     {
-        let src_ref = unsafe { lt::reset_ref_lifetime(&src) };
+        let src = unsafe { lifetime::reset_ref(refs.deref()) };
         Self {
-            _src: src,
-            iter: f(src_ref),
+            refs,
+            token,
+            iter: f(src),
         }
     }
 }
@@ -59,10 +66,15 @@ where
     }
 }
 
-impl<'a, I, T> RefIterator for RefIterI<'a, I>
+impl<'a, I, T> RefIterator<'a> for RefIterI<'a, I>
 where
     I: Iterator<Item = &'a T>,
     T: 'a,
 {
-    // NOP.
+    fn ref_token<'s>(&'s self) -> &'a RefToken
+    where
+        'a: 's,
+    {
+        self.token
+    }
 }

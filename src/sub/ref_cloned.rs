@@ -1,6 +1,5 @@
 //! Provider of [`RefCloned`].
 
-use crate::token::Token;
 use crate::util::msg;
 use crate::{RefItem, RefIterator};
 
@@ -23,14 +22,16 @@ impl<I> RefCloned<I> {
 
 impl<'a, I, T> Iterator for RefCloned<I>
 where
-    I: RefIterator<Item = &'a RefItem<T>>,
+    I: RefIterator<'a, Item = &'a RefItem<T>>,
     T: 'a + Clone,
 {
     type Item = T;
 
     fn next(&mut self) -> Option<Self::Item> {
-        let token = Token::new();
-        self.iter.next().map(|x| x.get(&token)).cloned()
+        self.iter
+            .next()
+            .map(|x| x.get(self.iter.ref_token()))
+            .cloned()
     }
 
     fn size_hint(&self) -> (usize, Option<usize>) {

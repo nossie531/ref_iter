@@ -25,23 +25,12 @@ from dynamic borrowing types ([`Ref`] and [`RefMut`]).
 [`RefMutIterI`]: iter::RefMutIterI
 [`Ref`]: core::cell::Ref
 [`RefMut`]: core::cell::RefMut
-
-# Examples
-
-```
-# use std::cell::RefCell;
-# use ref_iter::iter::RefIter;
-# use ref_iter::RefIterator;
-#
-let samples = vec![1, 2, 3];
-let src = RefCell::new(samples.clone());
-let iter = RefIter::new(src.borrow(), |x| x.iter());
-let iter = iter.ref_map(|x, token| *x.get(token));
-assert!(iter.eq(samples));
-```
 */
 
 #![no_std]
+
+#![cfg_attr(docs, feature(doc_cfg))]
+#![warn(missing_docs)]
 
 #[cfg(feature = "alloc")]
 extern crate alloc;
@@ -51,8 +40,9 @@ pub mod sub;
 
 mod ref_item;
 mod ref_iterator;
-mod token;
+mod ref_token;
 mod util;
 
 pub use ref_item::*;
 pub use ref_iterator::*;
+pub use ref_token::*;

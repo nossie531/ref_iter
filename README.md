@@ -28,22 +28,25 @@ from dynamic borrowing types (`Ref` and `RefMut`).
 
 ```rust
 let samples = vec![1, 2, 3];
-let src = RefCell::new(samples.clone());
-let iter = RefIter::new(src.borrow(), |x| x.iter());
-let iter = iter.ref_map(|x, token| *x.get(token));
-assert!(iter.eq(samples));
+let src = RefCell::new(samples);
+let token = RefToken::new();
+let mut iter = RefIter::new(src.borrow(), &token, |x| x.iter());
+assert_eq!(iter.next().unwrap().get(&token), &1);
+assert_eq!(iter.next().unwrap().get(&token), &2);
+assert_eq!(iter.next().unwrap().get(&token), &3);
 ```
 
 ## Under the hood
 
-Points of `RefIter`.
+Because some `unsafe` was required at inside,<br/>
+we carefully considered the safety of our logic.<br/>
+For example, here is the case of `RefIter`.
 
-- With unsafe operation, extend lifetime of dynamic borrowed value reference.
-  - This reference is safe until `RefIter` (that stores `Ref`) is dropped.
-  - This reference is passed to the iterator generation closure.
-  - The closure is `Fn` to avoid spilling out the unsafable reference.
-- Wrap the iterator to protect items by token.
-  - Tokens are only provided within the callbacks of `RefIter` methods.
-  - Lifetime of item reference depends on lifetime of token reference.
-  - Lifetime of token reference depends on `RefIter` existance.
-  - Therefore, when `RefIter` is droped, then item is inaccessible.
+- `Ref` outlives effective span of `RefIter`.
+  - So, while `RefIter` alive, `Ref`'s internal value can be accessed.
+  - So, the internal value reference is extended by unsafe operation.
+  - Its reference is passed to the iterator generation closure.
+  - The closure is `Fn` to avoid spilling out the unsafe reference.
+- `Ref` outlives effective span of `RefIter`'s each item.
+  - Creating `RefIter` requires `Ref` and `RefToken`.
+  - Access to `RefIter`'s each item requires `RefToken`.

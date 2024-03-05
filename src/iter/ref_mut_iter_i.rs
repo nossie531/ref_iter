@@ -1,9 +1,10 @@
 //! Provider of [`RefMutIterI`].
 
-use crate::util::{lt, msg};
-use crate::{RefItem, RefIterator};
+use crate::util::{lifetime, msg};
+use crate::{RefItem, RefIterator, RefToken};
 use core::any::Any;
 use core::cell::RefMut;
+use core::ops::DerefMut;
 
 /// Static typing iterator wrapper for [`RefMut`].
 ///
@@ -12,41 +13,43 @@ use core::cell::RefMut;
 /// ```
 /// # use core::cell::RefCell;
 /// # use ref_iter::iter::RefMutIterI;
-/// # use ref_iter::RefIterator;
+/// # use ref_iter::{RefIterator, RefToken};
 /// #
 /// let samples = vec![1, 2, 3];
-/// let src = RefCell::new(samples.clone());
-/// let mut iter = RefMutIterI::new(src.borrow_mut(), |x| x.iter_mut());
-/// iter.ref_act(|x, t| {
-///     for item in x {
-///         *item.get_mut(t) += 1;
-///     }
-/// });
-/// drop(iter);
+/// let src = RefCell::new(samples);
+/// let token = RefToken::new();
+/// for item in RefMutIterI::new(src.borrow_mut(), &token, |x| x.iter_mut()) {
+///     *item.get_mut(&token) += 1;
+/// }
 ///
-/// let iter = RefMutIterI::new(src.borrow_mut(), |x| x.iter_mut());
-/// let iter = iter.ref_map(|x, t| *x.get(t));
-/// assert!(iter.eq(samples.iter().map(|x| x + 1)));
+/// let mut iter = RefMutIterI::new(src.borrow_mut(), &token, |x| x.iter_mut());
+/// assert_eq!(iter.next().unwrap().get(&token), &2);
+/// assert_eq!(iter.next().unwrap().get(&token), &3);
+/// assert_eq!(iter.next().unwrap().get(&token), &4);
 /// ```
 #[must_use = msg::iter_must_use!()]
 pub struct RefMutIterI<'a, I> {
     /// Dynamic borrowing source.
-    _src: RefMut<'a, dyn Any>,
+    #[allow(dead_code)]
+    refs: RefMut<'a, dyn Any>,
+    /// Reference token.
+    token: &'a RefToken,
     /// Iterator generated from source.
     iter: I,
 }
 
 impl<'a, I> RefMutIterI<'a, I> {
     /// Create a new value.
-    pub fn new<S, F>(mut src: RefMut<'a, S>, f: F) -> Self
+    pub fn new<S, F>(mut refs: RefMut<'a, S>, token: &'a RefToken, f: F) -> Self
     where
         S: Any,
         F: Fn(&'a mut S) -> I,
     {
-        let src_ref = unsafe { lt::reset_mut_lifetime(&mut src) };
+        let src = unsafe { lifetime::reset_mut(refs.deref_mut()) };
         Self {
-            _src: src,
-            iter: f(src_ref),
+            refs,
+            token,
+            iter: f(src),
         }
     }
 }
@@ -67,10 +70,15 @@ where
     }
 }
 
-impl<'a, I, T: 'a> RefIterator for RefMutIterI<'a, I>
+impl<'a, I, T: 'a> RefIterator<'a> for RefMutIterI<'a, I>
 where
     I: Iterator<Item = &'a mut T>,
     T: 'a,
 {
-    // NOP.
+    fn ref_token<'s>(&'s self) -> &'a RefToken
+    where
+        'a: 's,
+    {
+        self.token
+    }
 }

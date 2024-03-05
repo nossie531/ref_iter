@@ -9,6 +9,9 @@ license = "MIT OR Apache-2.0"
 keywords = ["Ref", "RefMut", "RefCell", "Iterator"]
 categories = ["no-std", "rust-patterns"]
 
+[package.metadata.docs.rs]
+rustdoc-args = ["--cfg", "docs"]
+
 [features]
 default = ["std"]
 std = ["alloc"]
