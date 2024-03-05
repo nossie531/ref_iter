@@ -1,7 +1,7 @@
 //! Provider of [`RefMutIterI`].
 
-use crate::util::{lt, msg};
-use crate::{RefItem, RefIterator};
+use crate::util::{lifetime, msg};
+use crate::RefIterator;
 use core::any::Any;
 use core::cell::RefMut;
 
@@ -43,27 +43,11 @@ impl<'a, I> RefMutIterI<'a, I> {
         S: Any,
         F: Fn(&'a mut S) -> I,
     {
-        let src_ref = unsafe { lt::reset_mut_lifetime(&mut src) };
+        let src_ref = unsafe { lifetime::reset_mut(&mut src) };
         Self {
             _src: src,
             iter: f(src_ref),
         }
-    }
-}
-
-impl<'a, I, T> Iterator for RefMutIterI<'a, I>
-where
-    I: Iterator<Item = &'a mut T>,
-    T: 'a,
-{
-    type Item = &'a mut RefItem<T>;
-
-    fn next(&mut self) -> Option<Self::Item> {
-        self.iter.next().map(|x| RefItem::use_mut(x))
-    }
-
-    fn size_hint(&self) -> (usize, Option<usize>) {
-        self.iter.size_hint()
     }
 }
 
@@ -72,5 +56,13 @@ where
     I: Iterator<Item = &'a mut T>,
     T: 'a,
 {
-    // NOP.
+    type Item<'s> = &'s mut T where Self: 's;
+
+    fn next(&mut self) -> Option<Self::Item<'_>> {
+        self.iter.next()
+    }
+
+    fn size_hint(&self) -> (usize, Option<usize>) {
+        self.iter.size_hint()
+    }
 }

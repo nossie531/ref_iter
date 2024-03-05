@@ -1,4 +1,4 @@
 //! Utilities for this crate.
 
-pub mod lt;
+pub mod lifetime;
 pub mod msg;

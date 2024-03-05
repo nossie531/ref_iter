@@ -47,12 +47,12 @@ assert!(iter.eq(samples));
 extern crate alloc;
 
 pub mod iter;
-pub mod sub;
 
-mod ref_item;
+mod into_ref_iterator;
 mod ref_iterator;
-mod token;
+mod sub;
 mod util;
 
-pub use ref_item::*;
+pub use into_ref_iterator::*;
 pub use ref_iterator::*;
+pub use sub::*;

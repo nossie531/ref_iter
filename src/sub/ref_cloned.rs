@@ -1,14 +1,14 @@
 //! Provider of [`RefCloned`].
 
-use crate::token::Token;
 use crate::util::msg;
-use crate::{RefItem, RefIterator};
+use crate::RefIterator;
+use core::ops::Deref;
 
 /// An iterator that clone dynamic borrowing elements.
 ///
-/// This struct is created by the [`RefIterator::ref_cloned`].
+/// This struct is created by the [`RefIterator::cloned`].
 #[must_use = msg::iter_must_use!()]
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct RefCloned<I> {
     /// Base iterator.
     iter: I,
@@ -21,16 +21,16 @@ impl<I> RefCloned<I> {
     }
 }
 
-impl<'a, I, T> Iterator for RefCloned<I>
+impl<I, T> Iterator for RefCloned<I>
 where
-    I: RefIterator<Item = &'a RefItem<T>>,
-    T: 'a + Clone,
+    I: RefIterator,
+    for<'a> I::Item<'a>: Deref<Target = T>,
+    T: Clone,
 {
     type Item = T;
 
     fn next(&mut self) -> Option<Self::Item> {
-        let token = Token::new();
-        self.iter.next().map(|x| x.get(&token)).cloned()
+        self.iter.next().map(|x| x.clone())
     }
 
     fn size_hint(&self) -> (usize, Option<usize>) {

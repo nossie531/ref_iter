@@ -1,7 +1,5 @@
 //! Lifetime operation utilities.
 
-use core::ops::{Deref, DerefMut};
-
 /// Reset immutable reference lifetime.
 ///
 /// # Safety
@@ -9,12 +7,11 @@ use core::ops::{Deref, DerefMut};
 /// Be careful when handling the return value. Access to a referenced
 /// target over its lifetime will result in undefined behavior.
 #[inline(always)]
-pub unsafe fn reset_ref_lifetime<'a, S, D>(src: &S) -> &'a D
+pub unsafe fn reset_ref<'a, T>(src: &T) -> &'a T
 where
-    S: ?Sized + Deref<Target = D>,
-    D: ?Sized,
+    T: ?Sized,
 {
-    let src_ptr = src.deref() as *const D;
+    let src_ptr = src as *const _;
     unsafe { &*src_ptr }
 }
 
@@ -25,11 +22,10 @@ where
 /// Be careful when handling the return value. Access to a referenced
 /// target over its lifetime will result in undefined behavior.
 #[inline(always)]
-pub unsafe fn reset_mut_lifetime<'a, S, D>(src: &mut S) -> &'a mut D
+pub unsafe fn reset_mut<'a, T>(src: &mut T) -> &'a mut T
 where
-    S: ?Sized + DerefMut<Target = D>,
-    D: ?Sized,
+    T: ?Sized,
 {
-    let src_ptr = src.deref_mut() as *mut D;
+    let src_ptr = src as *mut _;
     unsafe { &mut *src_ptr }
 }

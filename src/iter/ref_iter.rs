@@ -1,7 +1,7 @@
 //! Provider of [`RefIter`].
 
-use crate::util::{lt, msg};
-use crate::{RefItem, RefIterator};
+use crate::util::{lifetime, msg};
+use crate::RefIterator;
 use alloc::boxed::Box;
 use core::any::Any;
 use core::cell::Ref;
@@ -37,7 +37,7 @@ impl<'a, T> RefIter<'a, T> {
         I: Iterator<Item = &'a T> + 'a,
         F: Fn(&'a S) -> I,
     {
-        let src_ref = unsafe { lt::reset_ref_lifetime(&src) };
+        let src_ref = unsafe { lifetime::reset_ref(&src) };
         Self {
             _src: src,
             iter: Box::new(f(src_ref)),
@@ -45,18 +45,14 @@ impl<'a, T> RefIter<'a, T> {
     }
 }
 
-impl<'a, T> Iterator for RefIter<'a, T> {
-    type Item = &'a RefItem<T>;
+impl<'a, T> RefIterator for RefIter<'a, T> {
+    type Item<'x> = &'x T where Self: 'x;
 
-    fn next(&mut self) -> Option<Self::Item> {
-        self.iter.next().map(|x| RefItem::use_ref(x))
+    fn next(&mut self) -> Option<Self::Item<'_>> {
+        self.iter.next()
     }
 
     fn size_hint(&self) -> (usize, Option<usize>) {
         self.iter.size_hint()
     }
-}
-
-impl<'a, T> RefIterator for RefIter<'a, T> {
-    // NOP.
 }

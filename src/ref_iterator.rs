@@ -1,37 +1,58 @@
 //! Provider of [`RefIterator`].
 
 use crate::sub::{RefCloned, RefMap};
-use crate::token::Token;
 use crate::util::msg;
-use crate::RefItem;
+use crate::IntoRefIterator;
+use core::ops::Deref;
 
 /// A trait for dynamic borrowing iterators.
 #[must_use = msg::iter_must_use!()]
-pub trait RefIterator: Iterator {
-    /// Creates an iterator that clone dynamic borrowing elements.
-    fn ref_cloned<'a, T>(self) -> RefCloned<Self>
+pub trait RefIterator {
+    /// The type of the elements being iterated over.
+    type Item<'a>
     where
-        Self: Sized + Iterator<Item = &'a RefItem<T>>,
-        T: 'a + Clone,
+        Self: 'a;
+
+    /// Advances the iterator and returns the next value.
+    fn next(&mut self) -> Option<Self::Item<'_>>;
+
+    /// Returns the bounds on the remaining length of the iterator.
+    fn size_hint(&self) -> (usize, Option<usize>) {
+        (0, None)
+    }
+
+    /// Creates an iterator that clone dynamic borrowing elements.
+    fn cloned<T>(self) -> RefCloned<Self>
+    where
+        Self: Sized,
+        for<'a> Self::Item<'a>: Deref<Target = T>,
+        T: Clone,
     {
         RefCloned::new(self)
     }
 
     /// Creates an iterator that maps dynamic borrowing elements.
-    fn ref_map<T, F>(self, f: F) -> RefMap<Self, F>
+    fn map<F, T>(self, f: F) -> RefMap<Self, F>
     where
         Self: Sized,
-        F: FnMut(Self::Item, &Token) -> T,
+        F: for<'a> FnMut(Self::Item<'a>) -> T,
     {
         RefMap::new(self, f)
     }
 
-    /// Execute action with token.
-    fn ref_act<F>(&mut self, mut f: F)
+    /// Determines if the elements of this is equal to those of another.
+    fn eq<'a, I>(mut self, other: I) -> bool
     where
-        Self: Sized,
-        F: FnMut(&mut Self, &Token),
+        Self: 'a + Sized,
+        Self::Item<'a>: PartialEq<I::Item<'a>>,
+        I: 'a + IntoRefIterator,
     {
-        f(self, &Token::new())
+        let mut iter = other.into_ref_iter();
+        // loop {
+        //     let x = self.next();
+        //     let y = iter.next();
+        // }
+
+        true
     }
 }
