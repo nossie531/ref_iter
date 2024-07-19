@@ -8,12 +8,12 @@ from dynamic borrowing types ([`Ref`] and [`RefMut`]).
 
 ## Main items
 
-| Wrapper         | Target     | Approach       |
-|-----------------|------------|----------------|
-| [`RefIter`]     | [`Ref`]    | Dynamic typing |
-| [`RefIterI`]    | [`Ref`]    | Static typing  |
-| [`RefMutIter`]  | [`RefMut`] | Dynamic typing |
-| [`RefMutIterI`] | [`RefMut`] | Static typpng  |
+| Wrapper       | Target   | Approach       |
+|---------------|----------|----------------|
+| `RefIter`     | `Ref`    | Dynamic typing |
+| `RefIterI`    | `Ref`    | Static typing  |
+| `RefMutIter`  | `RefMut` | Dynamic typing |
+| `RefMutIterI` | `RefMut` | Static typing  |
 
 * Dynamic typing approach is simple in coding (Iterator type can omit).
 * Static typing approach is bit fast in execution.
@@ -29,15 +29,15 @@ from dynamic borrowing types ([`Ref`] and [`RefMut`]).
 # Examples
 
 ```
-# use std::cell::RefCell;
+# use core::cell::RefCell;
+# use core::slice::Iter;
 # use ref_iter::iter::RefIter;
 # use ref_iter::RefIterator;
 #
 let samples = vec![1, 2, 3];
-let src = RefCell::new(samples.clone());
-let iter = RefIter::new(src.borrow(), |x| x.iter());
-let iter = iter.ref_map(|x, token| *x.get(token));
-assert!(iter.eq(samples));
+let cell = RefCell::new(samples.clone());
+let iter = RefIter::new(cell.borrow(), |x| x.iter());
+assert!(iter.eq::<Iter<_>>(samples.iter()));
 ```
 */
 
@@ -45,6 +45,9 @@ assert!(iter.eq(samples));
 
 #[cfg(feature = "alloc")]
 extern crate alloc;
+
+#[macro_use]
+extern crate nougat;
 
 pub mod iter;
 

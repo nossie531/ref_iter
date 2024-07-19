@@ -1,7 +1,7 @@
 //! Provider of [`RefMutIter`].
 
 use crate::util::{lifetime, msg};
-use crate::RefIterator;
+use crate::*;
 use alloc::boxed::Box;
 use core::any::Any;
 use core::cell::RefMut;
@@ -11,23 +11,23 @@ use core::cell::RefMut;
 /// # Examples
 ///
 /// ```
+/// # use core::slice::Iter;
 /// # use core::cell::RefCell;
-/// # use ref_iter::iter::RefMutIter;
+/// # use core::iter::Map;
+/// # use ref_iter::iter::{RefIter, RefMutIter};
 /// # use ref_iter::RefIterator;
 /// #
 /// let samples = vec![1, 2, 3];
-/// let src = RefCell::new(samples.clone());
-/// let mut iter = RefMutIter::new(src.borrow_mut(), |x| x.iter_mut());
-/// iter.ref_act(|x, t| {
-///     for item in x {
-///         *item.get_mut(t) += 1;
-///     }
-/// });
+/// let cell = RefCell::new(samples.clone());
+/// let mut iter = RefMutIter::new(cell.borrow_mut(), |x| x.iter_mut());
+/// while let Some(item) = iter.next() {
+///     *item += 1;
+/// }
 /// drop(iter);
 ///
-/// let iter = RefMutIter::new(src.borrow_mut(), |x| x.iter_mut());
-/// let iter = iter.ref_map(|x, t| *x.get(t));
-/// assert!(iter.eq(samples.iter().map(|x| x + 1)));
+/// let iter = RefIter::new(cell.borrow(), |x| x.iter());
+/// let iter = iter.map(|x| *x);
+/// assert!(iter.eq::<Map<_, _>>(samples.iter().map(|x| x + 1)));
 /// ```
 #[must_use = msg::iter_must_use!()]
 pub struct RefMutIter<'a, T> {
@@ -45,14 +45,18 @@ impl<'a, T> RefMutIter<'a, T> {
         I: Iterator<Item = &'a mut T> + 'a,
         F: Fn(&'a mut S) -> I,
     {
-        let src_ref = unsafe { lifetime::reset_mut(&mut src) };
-        Self {
-            _src: src,
-            iter: Box::new(f(src_ref)),
+        unsafe {
+            let cell_val = lifetime::reset_mut(&mut *src);
+            let cell_iter = Box::new(f(cell_val));
+            Self {
+                _src: src,
+                iter: cell_iter,
+            }
         }
     }
 }
 
+#[gat]
 impl<'a, T> RefIterator for RefMutIter<'a, T> {
     type Item<'x> = &'a mut T where Self: 'x;
 

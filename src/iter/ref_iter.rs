@@ -1,7 +1,7 @@
 //! Provider of [`RefIter`].
 
 use crate::util::{lifetime, msg};
-use crate::RefIterator;
+use crate::*;
 use alloc::boxed::Box;
 use core::any::Any;
 use core::cell::Ref;
@@ -12,14 +12,14 @@ use core::cell::Ref;
 ///
 /// ```
 /// # use core::cell::RefCell;
+/// # use core::slice::Iter;
 /// # use ref_iter::iter::RefIter;
-/// # use ref_iter::RefIterator;    
+/// # use ref_iter::RefIterator;
 /// #
 /// let samples = vec![1, 2, 3];
-/// let src = RefCell::new(samples.clone());
-/// let iter = RefIter::new(src.borrow(), |x| x.iter());
-/// let iter = iter.ref_map(|x, t| *x.get(t));
-/// assert!(iter.eq(samples));
+/// let cell = RefCell::new(samples.clone());
+/// let iter = RefIter::new(cell.borrow(), |x| x.iter());
+/// assert!(iter.eq::<Iter<_>>(samples.iter()));
 /// ```
 #[must_use = msg::iter_must_use!()]
 pub struct RefIter<'a, T> {
@@ -37,14 +37,18 @@ impl<'a, T> RefIter<'a, T> {
         I: Iterator<Item = &'a T> + 'a,
         F: Fn(&'a S) -> I,
     {
-        let src_ref = unsafe { lifetime::reset_ref(&src) };
-        Self {
-            _src: src,
-            iter: Box::new(f(src_ref)),
+        unsafe {
+            let cell_val = lifetime::reset_ref(&*src);
+            let cell_iter = Box::new(f(cell_val));
+            Self {
+                _src: src,
+                iter: cell_iter,
+            }
         }
     }
 }
 
+#[gat]
 impl<'a, T> RefIterator for RefIter<'a, T> {
     type Item<'x> = &'x T where Self: 'x;
 

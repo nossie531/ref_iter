@@ -1,12 +1,12 @@
 //! Provider of [`RefIterator`].
 
-use crate::sub::{RefCloned, RefMap};
 use crate::util::msg;
-use crate::IntoRefIterator;
+use crate::*;
 use core::ops::Deref;
 
 /// A trait for dynamic borrowing iterators.
 #[must_use = msg::iter_must_use!()]
+#[gat]
 pub trait RefIterator {
     /// The type of the elements being iterated over.
     type Item<'a>
@@ -41,18 +41,23 @@ pub trait RefIterator {
     }
 
     /// Determines if the elements of this is equal to those of another.
-    fn eq<'a, I>(mut self, other: I) -> bool
+    fn eq<I>(mut self, other: I) -> bool
     where
-        Self: 'a + Sized,
-        Self::Item<'a>: PartialEq<I::Item<'a>>,
-        I: 'a + IntoRefIterator,
+        Self: Sized,
+        for<'a> Self::Item<'a>: PartialEq<<I::IntoRefIter as RefIterator>::Item<'a>>,
+        I: IntoRefIterator,
     {
         let mut iter = other.into_ref_iter();
-        // loop {
-        //     let x = self.next();
-        //     let y = iter.next();
-        // }
-
-        true
+        loop {
+            let x = self.next();
+            let y = iter.next();
+            if x.is_none() && y.is_none() {
+                return true;
+            } else if x.is_some() != y.is_some() {
+                return false;
+            } else if x.unwrap() != y.unwrap() {
+                return false;
+            }
+        }
     }
 }

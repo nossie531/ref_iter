@@ -13,3 +13,6 @@ categories = ["no-std", "rust-patterns"]
 default = ["std"]
 std = ["alloc"]
 alloc = []
+
+[dependencies]
+nougat = "0.2.4"

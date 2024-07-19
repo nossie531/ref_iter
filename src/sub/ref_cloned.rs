@@ -1,7 +1,7 @@
 //! Provider of [`RefCloned`].
 
 use crate::util::msg;
-use crate::RefIterator;
+use crate::*;
 use core::ops::Deref;
 
 /// An iterator that clone dynamic borrowing elements.
@@ -21,10 +21,11 @@ impl<I> RefCloned<I> {
     }
 }
 
+#[gat]
 impl<I, T> Iterator for RefCloned<I>
 where
     I: RefIterator,
-    for<'a> I::Item<'a>: Deref<Target = T>,
+    for<'a> <I as RefIterator>::Item<'a>: Deref<Target = T>,
     T: Clone,
 {
     type Item = T;

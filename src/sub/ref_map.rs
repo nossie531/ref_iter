@@ -1,7 +1,7 @@
 //! Provider of [`RefMap`].
 
 use crate::util::msg;
-use crate::RefIterator;
+use crate::*;
 
 /// Lending iterator that maps dynamic borrowing elements.
 ///
@@ -22,10 +22,11 @@ impl<I, F> RefMap<I, F> {
     }
 }
 
+#[gat]
 impl<I, F, T> RefIterator for RefMap<I, F>
 where
     I: RefIterator,
-    F: for<'a> FnMut(I::Item<'a>) -> T,
+    F: for<'any> FnMut(<I as RefIterator>::Item<'any>) -> T,
 {
     type Item<'a> = T where Self: 'a;
 
@@ -38,10 +39,11 @@ where
     }
 }
 
+#[gat]
 impl<I, F, T> IntoIterator for RefMap<I, F>
 where
     I: RefIterator,
-    F: for<'a> FnMut(I::Item<'a>) -> T,
+    F: for<'any> FnMut(<I as RefIterator>::Item<'any>) -> T,
 {
     type Item = T;
     type IntoIter = RefMapIter<I, F>;
@@ -69,7 +71,7 @@ impl<I, F> RefMapIter<I, F> {
 impl<I, F, T> Iterator for RefMapIter<I, F>
 where
     I: RefIterator,
-    F: FnMut(I::Item<'_>) -> T,
+    F: FnMut(Gat!(<I as RefIterator>::Item<'_>)) -> T,
 {
     type Item = T;
 

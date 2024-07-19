@@ -1,7 +1,7 @@
 //! Provider of [`RefIterI`].
 
+use crate::*;
 use crate::util::{lifetime, msg};
-use crate::RefIterator;
 use core::any::Any;
 use core::cell::Ref;
 
@@ -11,14 +11,14 @@ use core::cell::Ref;
 ///
 /// ```
 /// # use core::cell::RefCell;
+/// # use core::slice::Iter;
 /// # use ref_iter::iter::RefIterI;
 /// # use ref_iter::RefIterator;
 /// #
 /// let samples = vec![1, 2, 3];
 /// let src = RefCell::new(samples.clone());
 /// let iter = RefIterI::new(src.borrow(), |x| x.iter());
-/// let iter = iter.ref_map(|x, t| *x.get(t));
-/// assert!(iter.eq(samples));
+/// assert!(iter.eq::<Iter<_>>(samples.iter()));
 /// ```
 #[must_use = msg::iter_must_use!()]
 pub struct RefIterI<'a, I> {
@@ -35,14 +35,18 @@ impl<'a, I> RefIterI<'a, I> {
         S: Any,
         F: Fn(&'a S) -> I,
     {
-        let src_ref = unsafe { lifetime::reset_ref(&src) };
-        Self {
-            _src: src,
-            iter: f(src_ref),
+        unsafe {
+            let cell_val = lifetime::reset_ref(&*src);
+            let cell_iter = f(cell_val);
+            Self {
+                _src: src,
+                iter: cell_iter,
+            }
         }
     }
 }
 
+#[gat]
 impl<'a, I, T> RefIterator for RefIterI<'a, I>
 where
     I: Iterator<Item = &'a T>,
