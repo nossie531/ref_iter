@@ -62,7 +62,7 @@ where
 {
     type Item<'s> = &'s mut T where Self: 's;
 
-    fn next(&mut self) -> Option<Self::Item<'_>> {
+    fn next(&mut self) -> Option<Item<'_, Self>> {
         self.iter.next()
     }
 

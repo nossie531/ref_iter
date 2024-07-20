@@ -16,3 +16,6 @@ alloc = []
 
 [dependencies]
 nougat = "0.2.4"
+
+[package.metadata.docs.rs]
+rustdoc-args = ["--cfg", "docsrs"]

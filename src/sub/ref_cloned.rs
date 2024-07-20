@@ -25,7 +25,7 @@ impl<I> RefCloned<I> {
 impl<I, T> Iterator for RefCloned<I>
 where
     I: RefIterator,
-    for<'a> <I as RefIterator>::Item<'a>: Deref<Target = T>,
+    for<'a> Item<'a, I>: Deref<Target = T>,
     T: Clone,
 {
     type Item = T;

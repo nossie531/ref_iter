@@ -22,6 +22,8 @@ use core::cell::Ref;
 /// assert!(iter.eq::<Iter<_>>(samples.iter()));
 /// ```
 #[must_use = msg::iter_must_use!()]
+#[cfg(feature = "alloc")]
+#[cfg_attr(docsrs, doc(cfg(feature = "alloc")))]
 pub struct RefIter<'a, T> {
     /// Dynamic borrowing source.
     _src: Ref<'a, dyn Any>,
@@ -52,7 +54,7 @@ impl<'a, T> RefIter<'a, T> {
 impl<'a, T> RefIterator for RefIter<'a, T> {
     type Item<'x> = &'x T where Self: 'x;
 
-    fn next(&mut self) -> Option<Self::Item<'_>> {
+    fn next(&mut self) -> Option<Item<'_, Self>> {
         self.iter.next()
     }
 

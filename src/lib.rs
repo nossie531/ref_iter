@@ -8,12 +8,12 @@ from dynamic borrowing types ([`Ref`] and [`RefMut`]).
 
 ## Main items
 
-| Wrapper       | Target   | Approach       |
-|---------------|----------|----------------|
-| `RefIter`     | `Ref`    | Dynamic typing |
-| `RefIterI`    | `Ref`    | Static typing  |
-| `RefMutIter`  | `RefMut` | Dynamic typing |
-| `RefMutIterI` | `RefMut` | Static typing  |
+| Wrapper         | Target     | Approach       |
+|-----------------|------------|----------------|
+| [`RefIter`]     | [`Ref`]    | Dynamic typing |
+| [`RefIterI`]    | [`Ref`]    | Static typing  |
+| [`RefMutIter`]  | [`RefMut`] | Dynamic typing |
+| [`RefMutIterI`] | [`RefMut`] | Static typing  |
 
 * Dynamic typing approach is simple in coding (Iterator type can omit).
 * Static typing approach is bit fast in execution.
@@ -42,6 +42,9 @@ assert!(iter.eq::<Iter<_>>(samples.iter()));
 */
 
 #![no_std]
+
+#![cfg_attr(docsrs, feature(doc_cfg))]
+#![warn(missing_docs)]
 
 #[cfg(feature = "alloc")]
 extern crate alloc;

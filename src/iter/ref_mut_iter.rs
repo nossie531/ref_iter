@@ -30,6 +30,8 @@ use core::cell::RefMut;
 /// assert!(iter.eq::<Map<_, _>>(samples.iter().map(|x| x + 1)));
 /// ```
 #[must_use = msg::iter_must_use!()]
+#[cfg(feature = "alloc")]
+#[cfg_attr(docsrs, doc(cfg(feature = "alloc")))]
 pub struct RefMutIter<'a, T> {
     /// Dynamic borrowing source.
     _src: RefMut<'a, dyn Any>,
@@ -60,7 +62,7 @@ impl<'a, T> RefMutIter<'a, T> {
 impl<'a, T> RefIterator for RefMutIter<'a, T> {
     type Item<'x> = &'a mut T where Self: 'x;
 
-    fn next(&mut self) -> Option<Self::Item<'_>> {
+    fn next(&mut self) -> Option<Item<'_, Self>> {
         self.iter.next()
     }
 

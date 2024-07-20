@@ -4,6 +4,16 @@ use crate::util::msg;
 use crate::*;
 use core::ops::Deref;
 
+/// Shorthand for iterator item.
+/// 
+/// The following will have the same meaning.
+/// 
+/// | approach | code          |
+/// | -------- | ------------- |
+/// | GAT      | `I::Item<'a>` |
+/// | nougat   | `Item<'a, I>` |
+pub type Item<'a, I> = Gat!(<I as RefIterator>::Item<'a>);
+
 /// A trait for dynamic borrowing iterators.
 #[must_use = msg::iter_must_use!()]
 #[gat]
@@ -14,7 +24,7 @@ pub trait RefIterator {
         Self: 'a;
 
     /// Advances the iterator and returns the next value.
-    fn next(&mut self) -> Option<Self::Item<'_>>;
+    fn next(&mut self) -> Option<Item<'_, Self>>;
 
     /// Returns the bounds on the remaining length of the iterator.
     fn size_hint(&self) -> (usize, Option<usize>) {
@@ -25,7 +35,7 @@ pub trait RefIterator {
     fn cloned<T>(self) -> RefCloned<Self>
     where
         Self: Sized,
-        for<'a> Self::Item<'a>: Deref<Target = T>,
+        for<'a> Item<'a, Self>: Deref<Target = T>,
         T: Clone,
     {
         RefCloned::new(self)
@@ -35,7 +45,7 @@ pub trait RefIterator {
     fn map<F, T>(self, f: F) -> RefMap<Self, F>
     where
         Self: Sized,
-        F: for<'a> FnMut(Self::Item<'a>) -> T,
+        F: for<'a> FnMut(Item<'a, Self>) -> T,
     {
         RefMap::new(self, f)
     }
@@ -44,7 +54,7 @@ pub trait RefIterator {
     fn eq<I>(mut self, other: I) -> bool
     where
         Self: Sized,
-        for<'a> Self::Item<'a>: PartialEq<<I::IntoRefIter as RefIterator>::Item<'a>>,
+        for<'a> Item<'a, Self>: PartialEq<Item<'a, I::IntoRefIter>>,
         I: IntoRefIterator,
     {
         let mut iter = other.into_ref_iter();

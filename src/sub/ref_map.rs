@@ -26,11 +26,11 @@ impl<I, F> RefMap<I, F> {
 impl<I, F, T> RefIterator for RefMap<I, F>
 where
     I: RefIterator,
-    F: for<'any> FnMut(<I as RefIterator>::Item<'any>) -> T,
+    F: for<'any> FnMut(Item<'any, I>) -> T,
 {
     type Item<'a> = T where Self: 'a;
 
-    fn next(&mut self) -> Option<Self::Item<'_>> {
+    fn next(&mut self) -> Option<Item<'_, Self>> {
         self.iter.next().map(|x| (self.f)(x))
     }
 
@@ -43,7 +43,7 @@ where
 impl<I, F, T> IntoIterator for RefMap<I, F>
 where
     I: RefIterator,
-    F: for<'any> FnMut(<I as RefIterator>::Item<'any>) -> T,
+    F: for<'any> FnMut(Item<'any, I>) -> T,
 {
     type Item = T;
     type IntoIter = RefMapIter<I, F>;
@@ -71,7 +71,7 @@ impl<I, F> RefMapIter<I, F> {
 impl<I, F, T> Iterator for RefMapIter<I, F>
 where
     I: RefIterator,
-    F: FnMut(Gat!(<I as RefIterator>::Item<'_>)) -> T,
+    F: FnMut(Item<'_, I>) -> T,
 {
     type Item = T;
 
