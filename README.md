@@ -26,7 +26,7 @@ See [Stack Overflow Question][AtStackoverflow].
 
 This is good approach!
 
-[AtStackoverflow]:[https://stackoverflow.com/questions/33541492]
+[AtStackoverflow]:https://stackoverflow.com/questions/33541492
 
 ## Main items
 
@@ -52,17 +52,17 @@ unavailable. The core idea of this crate is to link this behavior with
 the destruction of dynamic borrowing.
 
 Lending Iterator does not implement [`Iterator`][Iterator]. Therefore,
-it does not support for-in syntax, and the author is in the process of
-implementing various methods on his own.
+it does not support for-in syntax (use while-loop). And also the author
+is in the process of implementing various methods on his own.
 
-A common implementation of Lending Iterator uses GAT (Generic Associated
-Type). However, as of 2024, GAT has some [limitations][gat-issue]. This
-crate uses [nougat][nougat], a polyfill of GAT, to avoid them. However,
+Lending Iterator is often implemented by GAT (Generic Associated Type).
+However, as of 2024, GAT has some [limitations][gat-issue]. Therefore,
+this crate uses [nougat], a polyfill of GAT, to avoid them. However,
 as a side effect, the type become a little more complicated.
 
-[gat-issue]:[https://blog.rust-lang.org/2022/10/28/gats-stabilization.html]
-[nougat]:[https://crates.io/crates/nougat]
-[Iterator]:[https://doc.rust-lang.org/stable/std/iter/trait.Iterator.html]
+[gat-issue]:https://blog.rust-lang.org/2022/10/28/gats-stabilization.html
+[nougat]:https://crates.io/crates/nougat
+[Iterator]:https://doc.rust-lang.org/stable/std/iter/trait.Iterator.html
 
 ## Under the hood
 
