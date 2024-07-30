@@ -15,9 +15,9 @@ for dynamic borrowing objects (`Ref` and `RefMut`).
 
 ```rust
 let samples = vec![1, 2, 3];
-let cell = RefCell::new(samples.clone());
-let iter = RefIter::new(cell.borrow(), |x| x.iter());
-assert!(iter.eq::<Iter<_>>(samples.iter()));
+let src = RefCell::new(samples.clone());
+let iter = RefIter::new(src.borrow(), |x| x.iter());
+assert!(iter.eq::<AsRefIter<_>>(samples.iter().into()));
 ```
 
 ## Other Solution

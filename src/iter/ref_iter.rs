@@ -12,14 +12,13 @@ use core::cell::Ref;
 ///
 /// ```
 /// # use core::cell::RefCell;
-/// # use core::slice::Iter;
+/// # use ref_iter::{AsRefIter, RefIterator};
 /// # use ref_iter::iter::RefIter;
-/// # use ref_iter::RefIterator;
 /// #
 /// let samples = vec![1, 2, 3];
 /// let cell = RefCell::new(samples.clone());
 /// let iter = RefIter::new(cell.borrow(), |x| x.iter());
-/// assert!(iter.eq::<Iter<_>>(samples.iter()));
+/// assert!(iter.eq::<AsRefIter<_>>(samples.iter().into()));
 /// ```
 #[must_use = msg::iter_must_use!()]
 #[cfg(feature = "alloc")]

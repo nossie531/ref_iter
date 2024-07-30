@@ -5,9 +5,9 @@ use crate::*;
 use core::ops::Deref;
 
 /// Shorthand for iterator item.
-/// 
+///
 /// The following will have the same meaning.
-/// 
+///
 /// | approach | code          |
 /// | -------- | ------------- |
 /// | GAT      | `I::Item<'a>` |
@@ -61,12 +61,15 @@ pub trait RefIterator {
         loop {
             let x = self.next();
             let y = iter.next();
-            if x.is_none() && y.is_none() {
-                return true;
-            } else if x.is_some() != y.is_some() {
-                return false;
-            } else if x.unwrap() != y.unwrap() {
-                return false;
+            match (x, y) {
+                (None, None) => return true,
+                (None, Some(_)) => return false,
+                (Some(_), None) => return false,
+                (Some(x), Some(y)) => {
+                    if x != y {
+                        return false;
+                    }
+                }
             }
         }
     }

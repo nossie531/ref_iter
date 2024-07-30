@@ -1,7 +1,7 @@
 //! Provider of [`RefIterI`].
 
-use crate::*;
 use crate::util::{lifetime, msg};
+use crate::*;
 use core::any::Any;
 use core::cell::Ref;
 
@@ -11,14 +11,13 @@ use core::cell::Ref;
 ///
 /// ```
 /// # use core::cell::RefCell;
-/// # use core::slice::Iter;
+/// # use ref_iter::{AsRefIter, RefIterator};
 /// # use ref_iter::iter::RefIterI;
-/// # use ref_iter::RefIterator;
 /// #
 /// let samples = vec![1, 2, 3];
 /// let src = RefCell::new(samples.clone());
 /// let iter = RefIterI::new(src.borrow(), |x| x.iter());
-/// assert!(iter.eq::<Iter<_>>(samples.iter()));
+/// assert!(iter.eq::<AsRefIter<_>>(samples.iter().into()));
 /// ```
 #[must_use = msg::iter_must_use!()]
 pub struct RefIterI<'a, I> {

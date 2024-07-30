@@ -30,19 +30,17 @@ from dynamic borrowing types ([`Ref`] and [`RefMut`]).
 
 ```
 # use core::cell::RefCell;
-# use core::slice::Iter;
+# use ref_iter::{AsRefIter, RefIterator};
 # use ref_iter::iter::RefIter;
-# use ref_iter::RefIterator;
 #
 let samples = vec![1, 2, 3];
 let cell = RefCell::new(samples.clone());
 let iter = RefIter::new(cell.borrow(), |x| x.iter());
-assert!(iter.eq::<Iter<_>>(samples.iter()));
+assert!(iter.eq::<AsRefIter<_>>(samples.iter().into()));
 ```
 */
 
 #![no_std]
-
 #![cfg_attr(docsrs, feature(doc_cfg))]
 #![warn(missing_docs)]
 
@@ -53,12 +51,12 @@ extern crate alloc;
 extern crate nougat;
 
 pub mod iter;
-
-mod into_ref_iterator;
-mod ref_iterator;
-mod sub;
-mod util;
-
 pub use into_ref_iterator::*;
 pub use ref_iterator::*;
 pub use sub::*;
+
+mod into_ref_iterator;
+mod macros;
+mod ref_iterator;
+mod sub;
+mod util;

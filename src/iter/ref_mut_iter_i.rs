@@ -10,11 +10,9 @@ use core::cell::RefMut;
 /// # Examples
 ///
 /// ```
-/// # use core::slice::Iter;
 /// # use core::cell::RefCell;
-/// # use core::iter::Map;
+/// # use ref_iter::{AsRefIter, RefIterator};
 /// # use ref_iter::iter::{RefIterI, RefMutIterI};
-/// # use ref_iter::RefIterator;
 /// #
 /// let samples = vec![1, 2, 3];
 /// let cell = RefCell::new(samples.clone());
@@ -26,7 +24,7 @@ use core::cell::RefMut;
 ///
 /// let iter = RefIterI::new(cell.borrow(), |x| x.iter());
 /// let iter = iter.map(|x| *x);
-/// assert!(iter.eq::<Map<_, _>>(samples.iter().map(|x| x + 1)));
+/// assert!(iter.eq::<AsRefIter<_>>(samples.iter().map(|x| x + 1).into()));
 /// ```
 #[must_use = msg::iter_must_use!()]
 pub struct RefMutIterI<'a, I> {

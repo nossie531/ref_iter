@@ -9,10 +9,10 @@ pub trait IntoRefIterator {
     fn into_ref_iter(self) -> Self::IntoRefIter;
 }
 
-impl<T: IntoIterator> IntoRefIterator for T {
-    type IntoRefIter = IntoRefIter<T::IntoIter>;
+impl<T: RefIterator> IntoRefIterator for T {
+    type IntoRefIter = Self;
 
     fn into_ref_iter(self) -> Self::IntoRefIter {
-        IntoRefIter::new(self.into_iter())
+        self
     }
 }
