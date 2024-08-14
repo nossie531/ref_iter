@@ -29,8 +29,8 @@ Trait items.
 
 Type items.
 
-* `RefIter` - `RefIterator` for [`Ref`].
-* `RefMutIter` - `RefMutIterator` for [`RefMut`].
+* `RefIter` - `RefIterator` from [`Ref`].
+* `RefMutIter` - `RefMutIterator` from [`RefMut`].
 
 [`Ref`]: https://doc.rust-lang.org/std/cell/struct.Ref.html
 [`RefMut`]: https://doc.rust-lang.org/std/cell/struct.RefMut.html
@@ -45,10 +45,10 @@ of dynamic borrowing.
 
 Note lending-iterator does not implement [`Iterator`]. Therefore, it does
 not support iterator loop syntax (for-in). And also it does not support
-various methods like `Iterator`. However, these are not big problems.
-First, instead of iterator loop syntax, you can use other loop syntax or
-this crate's macros (`for_ref` and `for_ref_mut`). And also, the lack of
-methods can be covered by [iterator conversion](#iterator-conversion).
+various methods like `Iterator`. However, these are not so big problems.
+Because, instead of iterator loop syntax, you can use other loop syntax
+or this crate's macros (`for_ref` and `for_ref_mut`). And also, the lack
+of methods can be covered by [iterator conversion](#iterator-conversion).
 
 This crate is not keen on abstraction for lending-iterator. Because ideal
 implementations of lending-Iterator requires GAT (Generic Associated Type).

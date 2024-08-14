@@ -15,8 +15,8 @@ Trait items.
 
 Type items.
 
-* [`RefIter`] - [`RefIterator`] for [`Ref`].
-* [`RefMutIter`] - [`RefMutIterator`] for [`RefMut`].
+* [`RefIter`] - [`RefIterator`] from [`Ref`].
+* [`RefMutIter`] - [`RefMutIterator`] from [`RefMut`].
 
 [`Ref`]: core::cell::Ref
 [`RefMut`]: core::cell::RefMut
