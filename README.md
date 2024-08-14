@@ -46,7 +46,7 @@ of dynamic borrowing.
 Note lending-iterator does not implement [`Iterator`]. Therefore, it does
 not support iterator loop syntax (for-in). And also it does not support
 various methods like `Iterator`. However, these are not big problems.
-First, instead of iterator loop syntax, you can use other loop syntax and
+First, instead of iterator loop syntax, you can use other loop syntax or
 this crate's macros (`for_ref` and `for_ref_mut`). And also, the lack of
 methods can be covered by [iterator conversion](#iterator-conversion).
 
