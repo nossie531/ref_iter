@@ -3,7 +3,7 @@
 use crate::prelude::*;
 use crate::util::msg;
 
-/// Elements mapper for mutable dyanmic borrowing iterator.
+/// Item mapper for mutable dyanmic borrowing iterator.
 ///
 /// This struct is created by the [`RefMutIterator::map_mut`].
 #[must_use = msg::iter_must_use!()]
