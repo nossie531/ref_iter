@@ -1,6 +1,8 @@
+//! Provider of [`IntoRefIterator`].
+
 use crate::*;
 
-/// Conversion into an [`RefIterator`].
+/// Conversion into [`RefIterator`].
 pub trait IntoRefIterator {
     /// Which kind of iterator are we turning this into?
     type IntoRefIter: RefIterator;

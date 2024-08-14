@@ -1,40 +1,40 @@
-//! Provider of [`RefMutIterI`].
+//! Provider of [`RefMutIter`].
 
+use crate::prelude::*;
 use crate::util::{lifetime, msg};
-use crate::*;
 use core::any::Any;
 use core::cell::RefMut;
 
-/// Static typing iterator wrapper for [`RefMut`].
+/// Mutable dynamic borrowing iterator for [`RefMut`].
 ///
 /// # Examples
 ///
 /// ```
 /// # use core::cell::RefCell;
-/// # use ref_iter::{AsRefIter, RefIterator};
-/// # use ref_iter::iter::{RefIterI, RefMutIterI};
+/// # use ref_iter::prelude::*;
 /// #
 /// let samples = vec![1, 2, 3];
 /// let cell = RefCell::new(samples.clone());
-/// let mut iter = RefMutIterI::new(cell.borrow_mut(), |x| x.iter_mut());
-/// while let Some(item) = iter.next() {
+/// let mut iter = RefMutIter::new(cell.borrow_mut(), |x| x.iter_mut());
+/// while let Some(item) = iter.next_mut() {
 ///     *item += 1;
 /// }
 /// drop(iter);
 ///
-/// let iter = RefIterI::new(cell.borrow(), |x| x.iter());
-/// let iter = iter.map(|x| *x);
-/// assert!(iter.eq::<AsRefIter<_>>(samples.iter().map(|x| x + 1).into()));
+/// let results = cell.into_inner();
+/// let expecteds = vec![2, 3, 4];
+/// assert_eq!(results, expecteds);
 /// ```
 #[must_use = msg::iter_must_use!()]
-pub struct RefMutIterI<'a, I> {
+#[derive(Debug)]
+pub struct RefMutIter<'a, I> {
     /// Dynamic borrowing source.
     _src: RefMut<'a, dyn Any>,
     /// Iterator generated from source.
     iter: I,
 }
 
-impl<'a, I> RefMutIterI<'a, I> {
+impl<'a, I> RefMutIter<'a, I> {
     /// Create a new value.
     pub fn new<S, F>(mut src: RefMut<'a, S>, f: F) -> Self
     where
@@ -52,19 +52,28 @@ impl<'a, I> RefMutIterI<'a, I> {
     }
 }
 
-#[gat]
-impl<'a, I, T: 'a> RefIterator for RefMutIterI<'a, I>
+impl<'a, I, T: 'a> RefIterator for RefMutIter<'a, I>
 where
     I: Iterator<Item = &'a mut T>,
     T: 'a,
 {
-    type Item<'s> = &'s mut T where Self: 's;
+    type Item = T;
 
-    fn next(&mut self) -> Option<Item<'_, Self>> {
-        self.iter.next()
+    fn next(&mut self) -> Option<&Self::Item> {
+        self.iter.next().map(|x| &*x)
     }
 
     fn size_hint(&self) -> (usize, Option<usize>) {
         self.iter.size_hint()
+    }
+}
+
+impl<'a, I, T: 'a> RefMutIterator for RefMutIter<'a, I>
+where
+    I: Iterator<Item = &'a mut T>,
+    T: 'a,
+{
+    fn next_mut(&mut self) -> Option<&mut Self::Item> {
+        self.iter.next()
     }
 }

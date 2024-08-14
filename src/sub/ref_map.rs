@@ -1,9 +1,9 @@
 //! Provider of [`RefMap`].
 
+use crate::prelude::*;
 use crate::util::msg;
-use crate::*;
 
-/// Lending iterator that maps dynamic borrowing elements.
+/// Elements mapper for immutable dyanmic borrowing iterator.
 ///
 /// This struct is created by the [`RefIterator::map`].
 #[must_use = msg::iter_must_use!()]
@@ -22,15 +22,14 @@ impl<I, F> RefMap<I, F> {
     }
 }
 
-#[gat]
 impl<I, F, T> RefIterator for RefMap<I, F>
 where
     I: RefIterator,
-    F: for<'any> FnMut(Item<'any, I>) -> T,
+    F: FnMut(&I::Item) -> &T,
 {
-    type Item<'a> = T where Self: 'a;
+    type Item = T;
 
-    fn next(&mut self) -> Option<Item<'_, Self>> {
+    fn next(&mut self) -> Option<&Self::Item> {
         self.iter.next().map(|x| (self.f)(x))
     }
 
@@ -39,11 +38,10 @@ where
     }
 }
 
-#[gat]
 impl<I, F, T> IntoIterator for RefMap<I, F>
 where
     I: RefIterator,
-    F: for<'any> FnMut(Item<'any, I>) -> T,
+    F: FnMut(&I::Item) -> T,
 {
     type Item = T;
     type IntoIter = RefMapIter<I, F>;
@@ -53,7 +51,7 @@ where
     }
 }
 
-/// Normal (not lending) iterator that maps dynamic borrowing elements.
+/// Adapter that turns [`RefMap`] into [`Iterator`].
 ///
 /// This struct is created by [RefMap::into_iter].
 pub struct RefMapIter<I, F> {
@@ -71,7 +69,7 @@ impl<I, F> RefMapIter<I, F> {
 impl<I, F, T> Iterator for RefMapIter<I, F>
 where
     I: RefIterator,
-    F: FnMut(Item<'_, I>) -> T,
+    F: FnMut(&I::Item) -> T,
 {
     type Item = T;
 

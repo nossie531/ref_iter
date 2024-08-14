@@ -1,10 +1,9 @@
 //! Provider of [`RefCloned`].
 
+use crate::prelude::*;
 use crate::util::msg;
-use crate::*;
-use core::ops::Deref;
 
-/// An iterator that clone dynamic borrowing elements.
+/// An iterator that clones elements of dynamic borrowing itefator.
 ///
 /// This struct is created by the [`RefIterator::cloned`].
 #[must_use = msg::iter_must_use!()]
@@ -21,17 +20,15 @@ impl<I> RefCloned<I> {
     }
 }
 
-#[gat]
-impl<I, T> Iterator for RefCloned<I>
+impl<I> Iterator for RefCloned<I>
 where
     I: RefIterator,
-    for<'a> Item<'a, I>: Deref<Target = T>,
-    T: Clone,
+    I::Item: Clone,
 {
-    type Item = T;
+    type Item = I::Item;
 
     fn next(&mut self) -> Option<Self::Item> {
-        self.iter.next().map(|x| x.clone())
+        self.iter.next().cloned()
     }
 
     fn size_hint(&self) -> (usize, Option<usize>) {

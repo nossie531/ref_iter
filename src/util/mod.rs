@@ -1,4 +1,4 @@
-//! Utilities for this crate.
+//! Crate's internal utilities.
 
 pub mod lifetime;
 pub mod msg;

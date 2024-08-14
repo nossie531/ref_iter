@@ -17,52 +17,64 @@ for dynamic borrowing objects (`Ref` and `RefMut`).
 let samples = vec![1, 2, 3];
 let src = RefCell::new(samples.clone());
 let iter = RefIter::new(src.borrow(), |x| x.iter());
-assert!(iter.eq::<AsRefIter<_>>(samples.iter().into()));
+iter.cloned().eq(samples.iter().cloned());
 ```
-
-## Other Solution
-
-See [Stack Overflow Question][AtStackoverflow].
-
-This is good approach!
-
-[AtStackoverflow]:https://stackoverflow.com/questions/33541492
 
 ## Main items
 
-| Wrapper       | Target   | Approach       |
-|---------------|----------|----------------|
-| `RefIter`     | `Ref`    | Dynamic typing |
-| `RefIterI`    | `Ref`    | Static typing  |
-| `RefMutIter`  | `RefMut` | Dynamic typing |
-| `RefMutIterI` | `RefMut` | Static typing  |
+Trait items.
 
-* Dynamic typing approach is simple in coding (Iterator type can omit).
-* Static typing approach is bit fast in execution.
-* Static typing approach can be used in `no_std` environment.
+* `RefIterator` - Immutable dynamic borrowing iterator.
+* `RefMutIterator` - Mutable dynamic borrowing iterator.
 
-## Lending Iterator
+Type items.
 
-The main iterator in this crate is a kind of Lending Iterator (though
-for simplicity, it does not provide abstraction as Lending Iterator,
-and focuses only on working with dynamic borrowing).
+* `RefIter` - `RefIterator` for [`Ref`].
+* `RefMutIter` - `RefMutIterator` for [`RefMut`].
 
-In Lending Iterator, when the iterator is destroyed, the item is also
-unavailable. The core idea of this crate is to link this behavior with
-the destruction of dynamic borrowing.
+[`Ref`]: https://doc.rust-lang.org/std/cell/struct.Ref.html
+[`RefMut`]: https://doc.rust-lang.org/std/cell/struct.RefMut.html
 
-Lending Iterator does not implement [`Iterator`][Iterator]. Therefore,
-it does not support for-in syntax (use while-loop). And also the author
-is in the process of implementing various methods on his own.
+## Lending-iterator
 
-Lending Iterator is often implemented by GAT (Generic Associated Type).
-However, as of 2024, GAT has some [limitations][gat-issue]. Therefore,
-this crate uses [nougat], a polyfill of GAT, to avoid them. However,
-as a side effect, the type become a little more complicated.
+The main iterator in this crate is a kind of Lending-iterator.
+
+At lending-iterator, when it is destroyed, the item is also unavailable.
+The core idea of this crate is to link this behavior with the destruction
+of dynamic borrowing.
+
+Note lending-iterator does not implement [`Iterator`]. Therefore, it does
+not support iterator loop syntax (for-in). And also it does not support
+various methods like `Iterator`. However, these are not big problems.
+First, instead of iterator loop syntax, you can use other loop syntax and
+this crate's macros (`for_ref` and `for_ref_mut`). And also, the lack of
+methods can be covered by [iterator conversion](#iterator-conversion).
+
+This crate is not keen on abstraction for lending-iterator. Because ideal
+implementations of lending-Iterator requires GAT (Generic Associated Type).
+However, as of 2024, GAT has some [limitations][gat-issue]. And workarounds
+like [nougat] complicate the API. Therefore, We are not using GAT for this
+crate for simplicity.
 
 [gat-issue]:https://blog.rust-lang.org/2022/10/28/gats-stabilization.html
 [nougat]:https://crates.io/crates/nougat
-[Iterator]:https://doc.rust-lang.org/stable/std/iter/trait.Iterator.html
+[`Iterator`]:https://doc.rust-lang.org/stable/std/iter/trait.Iterator.html
+
+## Iterator conversion
+
+The following items provide cross-conversion of normal-iterator
+and lending-iterator.
+
+**Lending -> Normal**
+* `RefIterator::cloned()`
+* `RefIterator::map(f)` with `RefMap::into_iter()`
+* `RefMutIterator::map_mut(f)` with `RefMutMap::into_iter()`
+
+**Normal -> Lending**
+* `IntoRefIter::new(i)`
+* `IntoRefMutIter::new(i)`
+* `RefIter::new(s, f)`
+* `RefMutIter::new(s, f)`
 
 ## Under the hood
 
