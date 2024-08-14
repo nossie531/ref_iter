@@ -5,7 +5,7 @@ use crate::util::{lifetime, msg};
 use core::any::Any;
 use core::cell::Ref;
 
-/// Immutable dynamic borrowing iterator for [`Ref`].
+/// Immutable dynamic borrowing iterator from [`Ref`].
 ///
 /// # Examples
 ///

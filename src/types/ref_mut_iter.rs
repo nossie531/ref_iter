@@ -5,7 +5,7 @@ use crate::util::{lifetime, msg};
 use core::any::Any;
 use core::cell::RefMut;
 
-/// Mutable dynamic borrowing iterator for [`RefMut`].
+/// Mutable dynamic borrowing iterator from [`RefMut`].
 ///
 /// # Examples
 ///
