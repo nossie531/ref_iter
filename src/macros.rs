@@ -10,7 +10,7 @@
 /// #
 /// let samples = vec![1, 2, 3];
 /// let cell = RefCell::new(samples.clone());
-/// let iter = RefIterI::new(cell.borrow(), |x| x.iter());
+/// let iter = RefIter::new(cell.borrow(), |x| x.iter());
 /// let mut counter = 0;
 ///
 /// for_ref!((x in iter) {
@@ -47,7 +47,7 @@ macro_rules! for_ref {
 /// #
 /// let samples = vec![1, 2, 3];
 /// let cell = RefCell::new(samples.clone());
-/// let iter = RefMutIterI::new(cell.borrow_mut(), |x| x.iter_mut());
+/// let iter = RefMutIter::new(cell.borrow_mut(), |x| x.iter_mut());
 ///
 /// for_ref_mut!((x in iter) {
 ///     *x += 1;

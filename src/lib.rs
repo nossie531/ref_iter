@@ -33,11 +33,11 @@ Type items.
 
 ```
 # use core::cell::RefCell;
-# use ref_iter::{RefIterI, RefIterator};
+# use ref_iter::prelude::*;
 #
 let samples = vec![1, 2, 3];
 let src = RefCell::new(samples.clone());
-let iter = RefIterI::new(src.borrow(), |x| x.iter());
+let iter = RefIter::new(src.borrow(), |x| x.iter());
 assert!(iter.cloned().eq(samples.iter().cloned()));
 ```
 */

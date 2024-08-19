@@ -14,7 +14,7 @@ use core::fmt::{Debug, Formatter, Result};
 /// #
 /// let samples = vec![1, 2, 3];
 /// let src = RefCell::new(samples.clone());
-/// let iter1 = RefIterI::new(src.borrow(), |x| x.iter());
+/// let iter1 = RefIter::new(src.borrow(), |x| x.iter());
 /// let iter2 = IntoRefIter::new(samples.iter());
 /// assert!(iter1.eq(iter2));
 /// ```
