@@ -23,7 +23,7 @@ pub trait RefMutIterator: RefIterator {
     /// let samples = vec![(1, 1), (2, 2), (3, 3)];
     /// let sec_mut = (|x: &mut(i32, i32)| &mut x.1) as fn(&mut _) -> &mut _;
     /// let cell = RefCell::new(samples.clone());
-    /// let iter = RefMutIter::new(cell.borrow_mut(), |x| x.iter_mut());
+    /// let iter = RefMutIterI::new(cell.borrow_mut(), |x| x.iter_mut());
     /// let mut iter = iter.map_mut(sec_mut);
     /// while let Some(item) = iter.next_mut() {
     ///     *item = 0;

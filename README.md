@@ -16,7 +16,7 @@ for dynamic borrowing objects (`Ref` and `RefMut`).
 ```rust
 let samples = vec![1, 2, 3];
 let src = RefCell::new(samples.clone());
-let iter = RefIter::new(src.borrow(), |x| x.iter());
+let iter = RefIterI::new(src.borrow(), |x| x.iter());
 iter.cloned().eq(samples.iter().cloned());
 ```
 
@@ -29,11 +29,16 @@ Trait items.
 
 Type items.
 
-* `RefIter` - `RefIterator` from [`Ref`].
-* `RefMutIter` - `RefMutIterator` from [`RefMut`].
+| Wrapper       | Main trait       | Approach       |
+|---------------|------------------|----------------|
+| `RefIter`     | `RefIterator`    | Dynamic typing |
+| `RefIterI`    | `RefIterator`    | Static typing  |
+| `RefMutIter`  | `RefMutIterator` | Dynamic typing |
+| `RefMutIterI` | `RefMutIterator` | Static typing  |
 
-[`Ref`]: https://doc.rust-lang.org/std/cell/struct.Ref.html
-[`RefMut`]: https://doc.rust-lang.org/std/cell/struct.RefMut.html
+* Dynamic typing approach is simple in coding (Iterator type can omit).
+* Static typing approach is bit fast in execution.
+* Static typing approach can be used in `no_std` environment.
 
 ## Lending-iterator
 
@@ -73,8 +78,8 @@ and lending-iterator.
 **Normal -> Lending**
 * `IntoRefIter::new(i)`
 * `IntoRefMutIter::new(i)`
-* `RefIter::new(s, f)`
-* `RefMutIter::new(s, f)`
+* `RefIterI::new(s, f)`
+* `RefMutIterI::new(s, f)`
 
 ## Under the hood
 

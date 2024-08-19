@@ -61,7 +61,7 @@ where
     T: 'a,
 {
     fn fmt(&self, f: &mut Formatter<'_>) -> Result {
-        f.debug_struct("IntoRefIter")
+        f.debug_struct("IntoRefMutIter")
             .field("iter", &self.iter)
             .finish()
     }

@@ -21,7 +21,7 @@ pub trait RefIterator {
     /// #
     /// let samples = vec![1, 2];
     /// let src = RefCell::new(samples.clone());
-    /// let mut iter = RefIter::new(src.borrow(), |x| x.iter());
+    /// let mut iter = RefIterI::new(src.borrow(), |x| x.iter());
     /// assert_eq!(iter.next(), Some(&1));
     /// assert_eq!(iter.next(), Some(&2));
     /// assert_eq!(iter.next(), None);
@@ -38,7 +38,7 @@ pub trait RefIterator {
     /// #
     /// let samples = vec![1, 2, 3];
     /// let src = RefCell::new(samples.clone());
-    /// let iter = RefIter::new(src.borrow(), |x| x.iter());
+    /// let iter = RefIterI::new(src.borrow(), |x| x.iter());
     /// let hint = iter.size_hint();
     /// drop(iter);
     /// assert_eq!(hint, src.borrow().iter().size_hint());
@@ -57,7 +57,7 @@ pub trait RefIterator {
     /// #
     /// let samples = vec![1, 2, 3];
     /// let src = RefCell::new(samples.clone());
-    /// let iter = RefIter::new(src.borrow(), |x| x.iter());
+    /// let iter = RefIterI::new(src.borrow(), |x| x.iter());
     /// assert!(iter.cloned().eq(samples.iter().cloned()));
     /// ```
     fn cloned(self) -> RefCloned<Self>
@@ -78,7 +78,7 @@ pub trait RefIterator {
     /// #
     /// let samples = vec![1, 2, 3];
     /// let src = RefCell::new(samples.clone());
-    /// let iter = RefIter::new(src.borrow(), |x| x.iter());
+    /// let iter = RefIterI::new(src.borrow(), |x| x.iter());
     /// let iter = iter.map(|x: &_| *x + 1).into_iter();
     /// assert!(iter.eq(samples.iter().map(|x| x + 1)));
     /// ```
@@ -100,8 +100,8 @@ pub trait RefIterator {
     /// #
     /// let samples = vec![1, 2, 3];
     /// let src = RefCell::new(samples.clone());
-    /// let iter1 = RefIter::new(src.borrow(), |x| x.iter());
-    /// let iter2 = RefIter::new(src.borrow(), |x| x.iter());
+    /// let iter1 = RefIterI::new(src.borrow(), |x| x.iter());
+    /// let iter2 = RefIterI::new(src.borrow(), |x| x.iter());
     /// assert!(iter1.eq(iter2));
     /// ```
     fn eq<I>(mut self, other: I) -> bool
