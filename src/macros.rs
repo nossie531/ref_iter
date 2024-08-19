@@ -26,6 +26,14 @@ macro_rules! for_ref {
         while let Some($item) = RefIterator::next(&mut iter) {
             $($tt)*
         }
+    }};
+
+    ((_ in $iter:expr) {$($tt:tt)*}) => {{
+        use ref_iter::prelude::*;
+        let mut iter = IntoRefIterator::into_ref_iter($iter);
+        while let Some(_) = RefIterator::next(&mut iter) {
+            $($tt)*
+        }
     }}
 }
 
@@ -55,6 +63,14 @@ macro_rules! for_ref_mut {
         use ref_iter::prelude::*;
         let mut iter = IntoRefMutIterator::into_ref_mut_iter($iter);
         while let Some($item) = RefMutIterator::next_mut(&mut iter) {
+            $($tt)*
+        }
+    }};
+
+    ((_ in $iter:expr) {$($tt:tt)*}) => {{
+        use ref_iter::prelude::*;
+        let mut iter = IntoRefMutIterator::into_ref_mut_iter($iter);
+        while let Some(_) = RefMutIterator::next_mut(&mut iter) {
             $($tt)*
         }
     }}
