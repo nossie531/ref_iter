@@ -9,10 +9,23 @@ use crate::util::msg;
 #[must_use = msg::iter_must_use!()]
 pub trait RefMutIterator: RefIterator {
     /// Advances the iterator and returns the next mutable value.
+    /// 
+    /// # Examples
+    /// 
+    /// ```
+    /// # use core::cell::RefCell;
+    /// # use ref_iter::prelude::*;
+    /// #
+    /// let samples = vec![1, 2];
+    /// let src = RefCell::new(samples.clone());
+    /// let mut iter = RefMutIter::new(src.borrow_mut(), |x| x.iter_mut());
+    /// assert_eq!(iter.next_mut(), Some(&mut 1));
+    /// assert_eq!(iter.next_mut(), Some(&mut 2));
+    /// assert_eq!(iter.next_mut(), None);
+    /// ```
     fn next_mut(&mut self) -> Option<&mut Self::Item>;
 
     /// Creates an iterator that maps mutable dynamic borrowing elements.
-    ///
     ///
     /// # Examples
     ///
