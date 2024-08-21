@@ -60,7 +60,7 @@ pub trait RefMutIterator: RefIterator {
 #[cfg(feature = "alloc")]
 impl<I> RefMutIterator for Box<I>
 where
-    I: RefMutIterator
+    I: RefMutIterator + ?Sized
 {
     fn next_mut(&mut self) -> Option<&mut Self::Item> {
         self.as_mut().next_mut()

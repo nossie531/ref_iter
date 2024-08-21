@@ -132,7 +132,7 @@ pub trait RefIterator {
 #[cfg(feature = "alloc")]
 impl<I> RefIterator for Box<I>
 where
-    I: RefIterator
+    I: RefIterator + ?Sized
 {
     type Item = I::Item;
 
