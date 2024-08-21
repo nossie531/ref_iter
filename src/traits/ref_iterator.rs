@@ -1,5 +1,6 @@
 //! Provider of [`RefIterator`].
 
+use alloc::boxed::Box;
 use crate::closure::FnMap;
 use crate::prelude::*;
 use crate::sub::{RefCloned, RefMap};
@@ -125,5 +126,17 @@ pub trait RefIterator {
                 }
             }
         }
+    }
+}
+
+#[cfg(feature = "alloc")]
+impl<I> RefIterator for Box<I>
+where
+    I: RefIterator
+{
+    type Item = I::Item;
+
+    fn next(&mut self) -> Option<&Self::Item> {
+        self.as_mut().next()
     }
 }

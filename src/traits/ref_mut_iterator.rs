@@ -1,5 +1,6 @@
 //! Provider of [`RefMutIterator`].
 
+use alloc::boxed::Box;
 use crate::closure::FnMap;
 use crate::prelude::*;
 use crate::sub::RefMutMap;
@@ -53,5 +54,15 @@ pub trait RefMutIterator: RefIterator {
         F: for<'a> FnMap<&'a mut Self::Item>,
     {
         RefMutMap::new(self, f)
+    }
+}
+
+#[cfg(feature = "alloc")]
+impl<I> RefMutIterator for Box<I>
+where
+    I: RefMutIterator
+{
+    fn next_mut(&mut self) -> Option<&mut Self::Item> {
+        self.as_mut().next_mut()
     }
 }
