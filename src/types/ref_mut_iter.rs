@@ -28,7 +28,6 @@ use core::cell::RefMut;
 /// ```
 #[must_use = msg::iter_must_use!()]
 #[cfg(feature = "alloc")]
-#[cfg_attr(docsrs, doc(cfg(feature = "alloc")))]
 pub struct RefMutIter<'a, T> {
     /// Dynamic borrowing source.
     _src: RefMut<'a, dyn Any>,

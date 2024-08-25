@@ -21,7 +21,6 @@ use core::cell::Ref;
 /// ```
 #[must_use = msg::iter_must_use!()]
 #[cfg(feature = "alloc")]
-#[cfg_attr(docsrs, doc(cfg(feature = "alloc")))]
 pub struct RefIter<'a, T> {
     /// Dynamic borrowing source.
     _src: Ref<'a, dyn Any>,
