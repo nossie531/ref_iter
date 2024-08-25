@@ -20,21 +20,16 @@
 /// ```
 #[macro_export]
 macro_rules! for_ref {
-    (($item:ident in $iter:expr) {$($tt:tt)*}) => {{
+    (($item:pat in $iter:expr) $block:block) => {{
         use ref_iter::prelude::*;
         let mut iter = IntoRefIterator::into_ref_iter($iter);
-        while let Some($item) = RefIterator::next(&mut iter) {
-            $($tt)*
+        loop {
+            match RefIterator::next(&mut iter) {
+                None => break,
+                Some($item) => $block
+            }
         }
     }};
-
-    ((_ in $iter:expr) {$($tt:tt)*}) => {{
-        use ref_iter::prelude::*;
-        let mut iter = IntoRefIterator::into_ref_iter($iter);
-        while let Some(_) = RefIterator::next(&mut iter) {
-            $($tt)*
-        }
-    }}
 }
 
 /// for-in loop with [`IntoRefMutIterator`](crate::IntoRefMutIterator).
@@ -59,19 +54,14 @@ macro_rules! for_ref {
 /// ```
 #[macro_export]
 macro_rules! for_ref_mut {
-    (($item:ident in $iter:expr) {$($tt:tt)*}) => {{
+    (($item:pat in $iter:expr) $block:block) => {{
         use ref_iter::prelude::*;
         let mut iter = IntoRefMutIterator::into_ref_mut_iter($iter);
-        while let Some($item) = RefMutIterator::next_mut(&mut iter) {
-            $($tt)*
+        loop {
+            match RefMutIterator::next_mut(&mut iter) {
+                None => break,
+                Some($item) => $block
+            }            
         }
     }};
-
-    ((_ in $iter:expr) {$($tt:tt)*}) => {{
-        use ref_iter::prelude::*;
-        let mut iter = IntoRefMutIterator::into_ref_mut_iter($iter);
-        while let Some(_) = RefMutIterator::next_mut(&mut iter) {
-            $($tt)*
-        }
-    }}
 }

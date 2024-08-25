@@ -4,6 +4,7 @@ use ref_iter::prelude::*;
 #[test]
 fn for_ref() {
     with_underscore();
+    with_pattern();
     with_box();
 
     fn with_underscore() {
@@ -11,6 +12,15 @@ fn for_ref() {
         let cell = RefCell::new(samples.clone());
         let iter = RefIter::new(cell.borrow(), |x| x.iter());
         for_ref!((_ in iter) {
+            // nop.
+        })
+    }
+
+    fn with_pattern() {
+        let samples = vec![1, 2, 3];
+        let cell = RefCell::new(samples.clone());
+        let iter = RefIter::new(cell.borrow(), |x| x.iter());
+        for_ref!((&_ in iter) {
             // nop.
         })
     }
@@ -28,6 +38,7 @@ fn for_ref() {
 #[test]
 fn for_ref_mut() {
     with_underscore();
+    with_pattern();
     with_box();
 
     fn with_underscore() {
@@ -35,6 +46,15 @@ fn for_ref_mut() {
         let cell = RefCell::new(samples.clone());
         let iter = RefMutIter::new(cell.borrow_mut(), |x| x.iter_mut());
         for_ref_mut!((_ in iter) {
+            // nop.
+        })
+    }
+
+    fn with_pattern() {
+        let samples = vec![1, 2, 3];
+        let cell = RefCell::new(samples.clone());
+        let iter = RefMutIter::new(cell.borrow_mut(), |x| x.iter_mut());
+        for_ref_mut!((&mut _ in iter) {
             // nop.
         })
     }
