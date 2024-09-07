@@ -4,6 +4,7 @@ version = "0.1.0"
 authors = ["Nossie531"]
 edition = "2021"
 description = "Macros for 'ref_iter'."
+repository = "https://github.com/nossie531/ref_iter"
 license = "MIT OR Apache-2.0"
 keywords = ["for_ref"]
 

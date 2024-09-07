@@ -1,3 +1,5 @@
+//! Tests that should be compile errors.
+
 /// Test about [`crate::for_ref`].
 ///
 /// Loop item should be irrefutable pattern.
