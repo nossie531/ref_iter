@@ -29,24 +29,24 @@ Trait items.
 
 Type items.
 
-| Wrapper       | Main trait       | Approach       |
-|---------------|------------------|----------------|
-| `RefIter`     | `RefIterator`    | Dynamic typing |
-| `RefIterI`    | `RefIterator`    | Static typing  |
-| `RefMutIter`  | `RefMutIterator` | Dynamic typing |
-| `RefMutIterI` | `RefMutIterator` | Static typing  |
+| Wrapper       | Main trait       | Type Approach |
+|---------------|------------------|---------------|
+| `RefIter`     | `RefIterator`    | Dynamic       |
+| `RefIterI`    | `RefIterator`    | Static        |
+| `RefMutIter`  | `RefMutIterator` | Dynamic       |
+| `RefMutIterI` | `RefMutIterator` | Static        |
 
-* Dynamic typing approach is simple in coding (Iterator type can omit).
-* Static typing approach is bit fast in execution.
-* Static typing approach can be used in `no_std` environment.
+* Type approach Dynamic is simple in coding (Iterator type can omit).
+* Type approach Static is bit fast in execution.
+* Type approach Static can be used in `no_std` environment.
 
 ## Lending-iterator
 
 The main iterator in this crate is a kind of lending-iterator.
-
 At lending-iterator, when it is destroyed, the item is also unavailable.
-The core idea of this crate is to link this behavior with the destruction
-of dynamic borrowing.
+
+Core idea of this crate is to link this lending iterator behavior
+with the destruction of dynamic borrowing.
 
 Note lending-iterator does not implement [`Iterator`]. Therefore, it does
 not support iterator loop syntax (for-in). And also it does not support
@@ -85,7 +85,7 @@ and lending-iterator.
 
 Unsafe operation is used.
 
-About `RefIter`.
+For example, about `RefIter`.
 
 - Iterators taken from `Ref` are safe to use as long as `Ref` is available.
 - However, borrow checker does not allow to save the iterator with `Ref`.

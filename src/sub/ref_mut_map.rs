@@ -65,7 +65,9 @@ where
 ///
 /// This struct is created by [`RefMutMap::into_iter`].
 pub struct RefMutMapIter<I, F> {
+    /// Base iterator.
     iter: I,
+    /// Mapping closure.
     f: F,
 }
 

@@ -27,6 +27,7 @@ where
     I: Iterator<Item = &'a mut T>,
     T: 'a,
 {
+    /// Base iterator.
     iter: I,
 }
 

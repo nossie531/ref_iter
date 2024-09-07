@@ -4,25 +4,51 @@
 //! *Forgive me if the document is hard to read.*
 
 #![warn(missing_docs)]
+#![warn(clippy::missing_docs_in_private_items)]
 
+mod raf_macro_util;
+mod syn_node;
+
+use proc_macro as pm;
+use proc_macro2::TokenStream;
+use quote::ToTokens;
+use syn::parse::{ParseStream, Parser};
+use syn::{Error, Result};
+use syn_node::ForRef;
+
+/// Immutable for-in loop macro.
 #[proc_macro]
-#[allow(missing_docs)]
-pub fn for_ref(input: TokenStream) -> TokenStream {
-    for_ref_impl(input.into()).into()
+pub fn for_ref(input: pm::TokenStream) -> pm::TokenStream {
+    let ret = parse_for_ref
+        .parse2(input.into())
+        .unwrap_or_else(Error::into_compile_error);
+    ret.into()
 }
 
+/// Mutable for-in loop macro.
 #[proc_macro]
-#[allow(missing_docs)]
-pub fn for_ref_mut(input: TokenStream) -> TokenStream {
-    for_ref_mut_impl(input.into()).into()
+pub fn for_ref_mut(input: pm::TokenStream) -> pm::TokenStream {
+    let ret = parse_for_ref_mut
+        .parse2(input.into())
+        .unwrap_or_else(Error::into_compile_error);
+    ret.into()
 }
 
-mod for_ref_impl;
-mod for_ref_mut_impl;
-mod for_tree;
-mod util;
+/// Parse immutable for-in loop macro.
+fn parse_for_ref(input: ParseStream) -> Result<TokenStream> {
+    parse_for_loop(input, false)
+}
 
-use for_ref_impl::*;
-use for_ref_mut_impl::*;
-use for_tree::*;
-use proc_macro::TokenStream;
+/// Parse mutable for-in loop macro.
+fn parse_for_ref_mut(input: ParseStream) -> Result<TokenStream> {
+    parse_for_loop(input, true)
+}
+
+/// Parse for-in loop macro.
+fn parse_for_loop(input: ParseStream, mutable: bool) -> Result<TokenStream> {
+    let mut ret = TokenStream::new();
+    let syn_for = ForRef::parse(input, mutable);
+    ret.extend(syn_for.to_token_stream());
+    ret.extend(syn_for.err().map(Error::to_compile_error));
+    Ok(syn_for.to_token_stream())
+}

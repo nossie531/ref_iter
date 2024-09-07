@@ -12,6 +12,6 @@ keywords = ["for_ref"]
 proc-macro = true
 
 [dependencies]
-proc-macro2 = { version = "1", features = ["span-locations"] }
+proc-macro2 = "1"
 quote = "1"
 syn = { version = "2", features = ["full"] }

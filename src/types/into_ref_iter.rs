@@ -24,6 +24,7 @@ where
     I: Iterator<Item = &'a T>,
     T: 'a,
 {
+    /// Base iterator.
     iter: I,
 }
 
