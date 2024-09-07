@@ -44,7 +44,7 @@ assert!(iter.cloned().eq(samples.iter().cloned()));
 
 #![no_std]
 #![warn(missing_docs)]
-#![cfg_attr(docsrs, feature(doc_auto_cfg))]
+#![cfg_attr(all(docsrs, not(doctest)), feature(doc_auto_cfg))]
 
 #[cfg(feature = "alloc")]
 extern crate alloc;
