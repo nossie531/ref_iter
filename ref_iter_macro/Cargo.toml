@@ -1,0 +1,16 @@
+[package]
+name = "ref_iter_macro"
+version = "0.1.0"
+authors = ["Nossie531"]
+edition = "2021"
+description = "Macros for 'ref_iter'."
+license = "MIT OR Apache-2.0"
+keywords = ["for_ref"]
+
+[lib]
+proc-macro = true
+
+[dependencies]
+proc-macro2 = { version = "1", features = ["span-locations"] }
+quote = "1"
+syn = { version = "2", features = ["full"] }

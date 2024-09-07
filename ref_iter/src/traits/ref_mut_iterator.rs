@@ -1,18 +1,18 @@
 //! Provider of [`RefMutIterator`].
 
-use alloc::boxed::Box;
 use crate::closure::FnMap;
 use crate::prelude::*;
 use crate::sub::RefMutMap;
 use crate::util::msg;
+use alloc::boxed::Box;
 
 /// Mutable dynamic borrowing iterator.
 #[must_use = msg::iter_must_use!()]
 pub trait RefMutIterator: RefIterator {
     /// Advances the iterator and returns the next mutable value.
-    /// 
+    ///
     /// # Examples
-    /// 
+    ///
     /// ```
     /// # use core::cell::RefCell;
     /// # use ref_iter::prelude::*;
@@ -60,7 +60,7 @@ pub trait RefMutIterator: RefIterator {
 #[cfg(feature = "alloc")]
 impl<I> RefMutIterator for Box<I>
 where
-    I: RefMutIterator + ?Sized
+    I: RefMutIterator + ?Sized,
 {
     fn next_mut(&mut self) -> Option<&mut Self::Item> {
         self.as_mut().next_mut()

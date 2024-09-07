@@ -1,0 +1,21 @@
+[package]
+name = "ref_iter"
+version = "0.1.0"
+authors = ["Nossie531"]
+edition = "2021"
+description = "Dynamic borrowing iterator."
+repository = "https://github.com/nossie531/ref_iter"
+license = "MIT OR Apache-2.0"
+keywords = ["Ref", "RefMut", "RefCell", "Iterator"]
+categories = ["no-std", "rust-patterns"]
+
+[dependencies]
+ref_iter_macro = { path = "../ref_iter_macro" }
+
+[features]
+default = ["std"]
+std = ["alloc"]
+alloc = []
+
+[package.metadata.docs.rs]
+rustdoc-args = ["--cfg", "docsrs"]

@@ -49,6 +49,10 @@ assert!(iter.cloned().eq(samples.iter().cloned()));
 #[cfg(feature = "alloc")]
 extern crate alloc;
 
+pub use macros::*;
+pub use sub::*;
+pub use traits::*;
+pub use types::*;
 pub mod closure;
 pub mod prelude;
 
@@ -58,6 +62,7 @@ mod traits;
 mod types;
 mod util;
 
-pub use sub::*;
-pub use traits::*;
-pub use types::*;
+#[cfg(test)]
+#[doc(hidden)]
+#[path = "../compile_fail/mod.rs"]
+mod compile_fail;

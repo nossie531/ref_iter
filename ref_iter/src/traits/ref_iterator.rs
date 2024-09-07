@@ -1,10 +1,10 @@
 //! Provider of [`RefIterator`].
 
-use alloc::boxed::Box;
 use crate::closure::FnMap;
 use crate::prelude::*;
 use crate::sub::{RefCloned, RefMap};
 use crate::util::msg;
+use alloc::boxed::Box;
 
 /// Dynamic borrowing iterator.
 #[must_use = msg::iter_must_use!()]
@@ -132,7 +132,7 @@ pub trait RefIterator {
 #[cfg(feature = "alloc")]
 impl<I> RefIterator for Box<I>
 where
-    I: RefIterator + ?Sized
+    I: RefIterator + ?Sized,
 {
     type Item = I::Item;
 
