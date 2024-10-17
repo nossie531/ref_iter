@@ -1,7 +1,7 @@
 //! Rust-Analyzer-Friendly macro utilities.
 //!
 //! # Backgrounds
-//! 
+//!
 //! As of 2024, IDEs and function-like procedural macros have bad chemistry.
 //! Followings are common problems targeted by this module.
 //!
