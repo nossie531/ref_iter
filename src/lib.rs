@@ -60,7 +60,6 @@ mod traits;
 mod types;
 mod util;
 
-#[cfg(test)]
 #[doc(hidden)]
 #[path = "../tests_compile_fail/mod.rs"]
 mod tests_compile_fail;

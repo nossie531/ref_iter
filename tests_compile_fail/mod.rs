@@ -11,7 +11,7 @@
 /// let samples = vec![Some(1), Some(2), None];
 /// let cell = RefCell::new(samples.clone());
 /// let iter = RefIter::new(cell.borrow(), |x| x.iter());
-/// for_loop!((&Some(_x) in values.iter()) {
+/// for_ref!(&Some(_) in iter {
 ///     // nop.
 /// });
 /// ```
@@ -29,8 +29,8 @@ fn _for_ref() {
 /// #
 /// let samples = vec![Some(1), Some(2), None];
 /// let cell = RefCell::new(samples.clone());
-/// let iter = RefIter::new(cell.borrow(), |x| x.iter());
-/// for_loop!((&Some(_x) in values.iter()) {
+/// let iter = RefMutIter::new(cell.borrow_mut(), |x| x.iter_mut());
+/// for_ref_mut!(&mut Some(_) in iter {
 ///     // nop.
 /// });
 /// ```
