@@ -18,6 +18,9 @@
 ///     counter += 1;
 /// });
 /// ```
+/// 
+/// # Document from macro crate
+/// <!-- insert -->
 pub use ref_iter_macro::for_ref;
 
 /// for-in loop with [`IntoRefMutIterator`](crate::IntoRefMutIterator).
@@ -40,4 +43,7 @@ pub use ref_iter_macro::for_ref;
 /// let expecteds = vec![2, 3, 4];
 /// assert_eq!(results, expecteds);
 /// ```
+/// 
+/// # Document from macro crate
+/// <!-- insert -->
 pub use ref_iter_macro::for_ref_mut;
