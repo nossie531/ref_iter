@@ -1,4 +1,4 @@
-//! Rust-Analyzer-Friendly macro utilities.
+//! Rust-Analyzer friendly macro utilities.
 //!
 //! # Backgrounds
 //!

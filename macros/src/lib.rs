@@ -6,7 +6,7 @@
 #![warn(missing_docs)]
 #![warn(clippy::missing_docs_in_private_items)]
 
-mod raf_macro_util;
+mod ra_macro_util;
 mod syn_node;
 
 use proc_macro as pm;

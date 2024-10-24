@@ -1,6 +1,6 @@
 //! Provider of [`WithError`].
 
-use crate::raf_macro_util::SoftResult;
+use crate::ra_macro_util::SoftResult;
 use syn::{Error, Result};
 
 /// Trait object with error information.
