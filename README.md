@@ -29,16 +29,16 @@ Trait items.
 
 Type items.
 
-| Wrapper       | Main trait       | Type Approach |
-|---------------|------------------|---------------|
-| `RefIter`     | `RefIterator`    | Dynamic       |
-| `RefIterI`    | `RefIterator`    | Static        |
-| `RefMutIter`  | `RefMutIterator` | Dynamic       |
-| `RefMutIterI` | `RefMutIterator` | Static        |
+| Type          | Trait            | Iterator Typing |
+|---------------|------------------|-----------------|
+| `RefIter`     | `RefIterator`    | Dynamic         |
+| `RefIterI`    | `RefIterator`    | Static          |
+| `RefMutIter`  | `RefMutIterator` | Dynamic         |
+| `RefMutIterI` | `RefMutIterator` | Static          |
 
-* Type approach Dynamic is simple in coding (Iterator type can omit).
-* Type approach Static is bit fast in execution.
-* Type approach Static can be used in `no_std` environment.
+* Iterator Typing Dynamic is simple in coding (Iterator type can omit).
+* Iterator Typing Static is bit fast in execution.
+* Iterator Typing Static can be used in `no_std` environment.
 
 ## Lending-iterator
 
