@@ -4,6 +4,8 @@ use crate::closure::FnMap;
 use crate::prelude::*;
 use crate::sub::{RefCloned, RefMap};
 use crate::util::msg;
+
+#[cfg(feature = "alloc")]
 use alloc::boxed::Box;
 
 /// Dynamic borrowing iterator.
