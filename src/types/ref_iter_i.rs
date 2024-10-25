@@ -18,8 +18,8 @@ use core::cell::Ref;
 /// let iter = RefIterI::new(cell.borrow(), |x| x.iter());
 /// assert!(iter.cloned().eq(samples.iter().cloned()));
 /// ```
-#[must_use = msg::iter_must_use!()]
 #[derive(Debug)]
+#[must_use = msg::iter_must_use!()]
 pub struct RefIterI<'a, I> {
     /// Dynamic borrowing source.
     _src: Ref<'a, dyn Any>,

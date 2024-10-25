@@ -25,8 +25,8 @@ use core::cell::RefMut;
 /// let expecteds = vec![2, 3, 4];
 /// assert_eq!(results, expecteds);
 /// ```
-#[must_use = msg::iter_must_use!()]
 #[derive(Debug)]
+#[must_use = msg::iter_must_use!()]
 pub struct RefMutIterI<'a, I> {
     /// Dynamic borrowing source.
     _src: RefMut<'a, dyn Any>,
