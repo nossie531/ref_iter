@@ -1,6 +1,7 @@
 //! Debug format utility.
 
 /// Get type name without type parameter.
+#[cfg(feature = "alloc")]
 macro_rules! type_name {
     ($type:ty) => {{
         use nameof::name_of;
