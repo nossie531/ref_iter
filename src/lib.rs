@@ -18,16 +18,16 @@
 //!
 //! Type items.
 //!
-//! | Wrapper         | Main trait         | Iterator Typing |
-//! |-----------------|--------------------|-----------------|
-//! | [`RefIter`]     | [`RefIterator`]    | Dynamic         |
-//! | [`RefIterI`]    | [`RefIterator`]    | Static          |
-//! | [`RefMutIter`]  | [`RefMutIterator`] | Dynamic         |
-//! | [`RefMutIterI`] | [`RefMutIterator`] | Static          |
+//! | Wrapper           | Main trait         | Iterator Typing |
+//! |-------------------|--------------------|-----------------|
+//! | [`RefIter`]       | [`RefIterator`]    | Static          |
+//! | [`RefMutIter`]    | [`RefMutIterator`] | Static          |
+//! | [`DynRefIter`]    | [`RefIterator`]    | Dynamic         |
+//! | [`DynRefMutIter`] | [`RefMutIterator`] | Dynamic         |
 //!
-//! * Iterator Typing Dynamic is simple in coding (Iterator type can omit).
 //! * Iterator Typing Static is bit fast in execution.
 //! * Iterator Typing Static can be used in `no_std` environment.
+//! * Iterator Typing Dynamic is simple in coding (Iterator type can omit).
 //!
 //! # Examples
 //!
@@ -41,8 +41,8 @@
 //! assert!(iter.cloned().eq(samples.iter().cloned()));
 //! ```
 
-#![no_std]
 #![warn(missing_docs)]
+#![cfg_attr(not(test), no_std)]
 #![cfg_attr(all(docsrs, not(doctest)), feature(doc_auto_cfg))]
 
 #[cfg(feature = "alloc")]

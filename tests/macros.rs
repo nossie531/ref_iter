@@ -1,10 +1,12 @@
-use core::cell::RefCell;
 use ref_iter::prelude::*;
+use std::cell::RefCell;
 
 #[test]
 fn for_ref() {
     with_underscore();
     with_pattern();
+
+    #[cfg(feature = "alloc")]
     with_box();
 
     fn with_underscore() {
@@ -25,6 +27,7 @@ fn for_ref() {
         })
     }
 
+    #[cfg(feature = "alloc")]
     fn with_box() {
         let samples = vec![1, 2, 3];
         let cell = RefCell::new(samples.clone());
@@ -39,6 +42,8 @@ fn for_ref() {
 fn for_ref_mut() {
     with_underscore();
     with_pattern();
+
+    #[cfg(feature = "alloc")]
     with_box();
 
     fn with_underscore() {
@@ -59,6 +64,7 @@ fn for_ref_mut() {
         })
     }
 
+    #[cfg(feature = "alloc")]
     fn with_box() {
         let samples = vec![1, 2, 3];
         let cell = RefCell::new(samples.clone());

@@ -29,16 +29,16 @@ Trait items.
 
 Type items.
 
-| Type          | Trait            | Iterator Typing |
-|---------------|------------------|-----------------|
-| `RefIter`     | `RefIterator`    | Dynamic         |
-| `RefIterI`    | `RefIterator`    | Static          |
-| `RefMutIter`  | `RefMutIterator` | Dynamic         |
-| `RefMutIterI` | `RefMutIterator` | Static          |
+| Type            | Trait            | Iterator Typing |
+|-----------------|------------------|-----------------|
+| `RefIter`       | `RefIterator`    | Static          |
+| `RefMutIter`    | `RefMutIterator` | Static          |
+| `DynRefIter`    | `RefIterator`    | Dynamic         |
+| `DynRefMutIter` | `RefMutIterator` | Dynamic         |
 
-* Iterator Typing Dynamic is simple in coding (Iterator type can omit).
 * Iterator Typing Static is bit fast in execution.
 * Iterator Typing Static can be used in `no_std` environment.
+* Iterator Typing Dynamic is simple in coding (Iterator type can omit).
 
 ## Lending-iterator
 
