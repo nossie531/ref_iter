@@ -2,7 +2,6 @@
 
 use crate::prelude::*;
 use crate::util::msg;
-use core::fmt::{Debug, Formatter, Result};
 
 /// Adapter that turns [`Iterator`] into [`RefMutIterator`].
 ///
@@ -21,6 +20,7 @@ use core::fmt::{Debug, Formatter, Result};
 /// let expecteds = vec![2, 3, 4];
 /// assert_eq!(samples, expecteds);
 /// ```
+#[derive(Debug)]
 #[must_use = msg::iter_must_use!()]
 pub struct IntoRefMutIter<'a, I, T>
 where
@@ -53,18 +53,6 @@ where
         Self {
             iter: self.iter.clone(),
         }
-    }
-}
-
-impl<'a, I, T> Debug for IntoRefMutIter<'a, I, T>
-where
-    I: Iterator<Item = &'a mut T> + Debug,
-    T: 'a,
-{
-    fn fmt(&self, f: &mut Formatter<'_>) -> Result {
-        f.debug_struct("IntoRefMutIter")
-            .field("iter", &self.iter)
-            .finish()
     }
 }
 
