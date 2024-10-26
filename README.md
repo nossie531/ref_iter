@@ -22,23 +22,10 @@ iter.cloned().eq(samples.iter().cloned());
 
 ## Main items
 
-Trait items.
-
-* `RefIterator` - Immutable dynamic borrowing iterator.
-* `RefMutIterator` - Mutable dynamic borrowing iterator.
-
-Type items.
-
-| Type            | Trait            | Iterator Typing |
-|-----------------|------------------|-----------------|
-| `RefIter`       | `RefIterator`    | Static          |
-| `RefMutIter`    | `RefMutIterator` | Static          |
-| `DynRefIter`    | `RefIterator`    | Dynamic         |
-| `DynRefMutIter` | `RefMutIterator` | Dynamic         |
-
-* Iterator Typing Static is bit fast in execution.
-* Iterator Typing Static can be used in `no_std` environment.
-* Iterator Typing Dynamic is simple in coding (Iterator type can omit).
+| Trait            | Type         | Summary            |
+|------------------|--------------|--------------------|
+| `RefIterator`    | `RefIter`    | Immutable iterator |
+| `RefMutIterator` | `RefMutIter` | Mutable iterator   |
 
 ## Lending-iterator
 
@@ -78,8 +65,8 @@ and lending-iterator.
 **Normal -> Lending**
 * `IntoRefIter::new(i)`
 * `IntoRefMutIter::new(i)`
-* `RefIterI::new(s, f)`
-* `RefMutIterI::new(s, f)`
+* `RefIter::new(s, f)`
+* `RefMutIter::new(s, f)`
 
 ## Under the hood
 

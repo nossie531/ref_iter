@@ -18,16 +18,10 @@
 //!
 //! Type items.
 //!
-//! | Wrapper           | Main trait         | Iterator Typing |
-//! |-------------------|--------------------|-----------------|
-//! | [`RefIter`]       | [`RefIterator`]    | Static          |
-//! | [`RefMutIter`]    | [`RefMutIterator`] | Static          |
-//! | [`DynRefIter`]    | [`RefIterator`]    | Dynamic         |
-//! | [`DynRefMutIter`] | [`RefMutIterator`] | Dynamic         |
-//!
-//! * Iterator Typing Static is bit fast in execution.
-//! * Iterator Typing Static can be used in `no_std` environment.
-//! * Iterator Typing Dynamic is simple in coding (Iterator type can omit).
+//! | Wrapper           | Main trait         |
+//! |-------------------|--------------------|
+//! | [`RefIter`]       | [`RefIterator`]    |
+//! | [`RefMutIter`]    | [`RefMutIterator`] |
 //!
 //! # Examples
 //!
@@ -45,18 +39,13 @@
 #![cfg_attr(not(test), no_std)]
 #![cfg_attr(all(docsrs, not(doctest)), feature(doc_auto_cfg))]
 
-#[cfg(feature = "alloc")]
-extern crate alloc;
-
-#[macro_use]
-mod util;
-
 pub mod closure;
 pub mod macros;
 pub mod prelude;
 mod sub;
 mod traits;
 mod types;
+mod util;
 
 #[doc(hidden)]
 #[path = "../tests_compile_fail/mod.rs"]

@@ -5,9 +5,6 @@ use crate::prelude::*;
 use crate::sub::{RefCloned, RefMap};
 use crate::util::msg;
 
-#[cfg(feature = "alloc")]
-use alloc::boxed::Box;
-
 /// Dynamic borrowing iterator.
 #[must_use = msg::iter_must_use!()]
 pub trait RefIterator {
@@ -128,17 +125,5 @@ pub trait RefIterator {
                 }
             }
         }
-    }
-}
-
-#[cfg(feature = "alloc")]
-impl<I> RefIterator for Box<I>
-where
-    I: RefIterator + ?Sized,
-{
-    type Item = I::Item;
-
-    fn next(&mut self) -> Option<&Self::Item> {
-        self.as_mut().next()
     }
 }
