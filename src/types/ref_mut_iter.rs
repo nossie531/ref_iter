@@ -1,4 +1,4 @@
-//! Provider of [`RefMutIterI`].
+//! Provider of [`RefMutIter`].
 
 use crate::prelude::*;
 use crate::util::{lifetime, msg};

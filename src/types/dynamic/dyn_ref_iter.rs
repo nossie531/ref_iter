@@ -1,7 +1,7 @@
-//! Provider of [`RefIter`].
+//! Provider of [`DynRefIter`].
 
+use crate::prelude::*;
 use crate::util::{lifetime, msg};
-use crate::{prelude::*, type_name};
 use alloc::boxed::Box;
 use core::any::Any;
 use core::cell::Ref;

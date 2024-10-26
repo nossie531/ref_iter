@@ -1,6 +1,6 @@
 //! Tests that should be compile errors.
 
-/// Test about [`crate::for_ref`].
+/// Test about [`crate::macros::for_ref`].
 ///
 /// Loop item should be irrefutable pattern.
 ///
@@ -19,7 +19,7 @@ fn _for_ref() {
     // nop.
 }
 
-/// Test about [`crate::for_ref_mut`].
+/// Test about [`crate::macros::for_ref_mut`].
 ///
 /// Loop item should be irrefutable pattern.
 ///

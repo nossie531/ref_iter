@@ -17,7 +17,7 @@ use crate::util::msg;
 /// let iter2 = IntoRefIter::new(samples.iter());
 /// assert!(iter1.eq(iter2));
 /// ```
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 #[must_use = msg::iter_must_use!()]
 pub struct IntoRefIter<'a, I, T>
 where
@@ -37,18 +37,6 @@ where
     pub fn new<A: IntoIterator<IntoIter = I>>(iter: A) -> Self {
         Self {
             iter: iter.into_iter(),
-        }
-    }
-}
-
-impl<'a, I, T> Clone for IntoRefIter<'a, I, T>
-where
-    I: Iterator<Item = &'a T> + Clone,
-    T: 'a,
-{
-    fn clone(&self) -> Self {
-        Self {
-            iter: self.iter.clone(),
         }
     }
 }

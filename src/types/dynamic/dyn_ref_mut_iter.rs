@@ -1,7 +1,7 @@
-//! Provider of [`RefMutIter`].
+//! Provider of [`DynRefMutIter`].
 
+use crate::prelude::*;
 use crate::util::{lifetime, msg};
-use crate::*;
 use alloc::boxed::Box;
 use core::any::Any;
 use core::cell::RefMut;

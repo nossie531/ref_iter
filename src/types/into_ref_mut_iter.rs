@@ -20,7 +20,7 @@ use crate::util::msg;
 /// let expecteds = vec![2, 3, 4];
 /// assert_eq!(samples, expecteds);
 /// ```
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 #[must_use = msg::iter_must_use!()]
 pub struct IntoRefMutIter<'a, I, T>
 where
@@ -40,18 +40,6 @@ where
     pub fn new<A: IntoIterator<IntoIter = I>>(iter: A) -> Self {
         Self {
             iter: iter.into_iter(),
-        }
-    }
-}
-
-impl<'a, I, T> Clone for IntoRefMutIter<'a, I, T>
-where
-    I: Iterator<Item = &'a mut T> + Clone,
-    T: 'a,
-{
-    fn clone(&self) -> Self {
-        Self {
-            iter: self.iter.clone(),
         }
     }
 }
