@@ -5,12 +5,12 @@ use crate::util::{lifetime, msg};
 use core::any::Any;
 use core::cell::RefMut;
 
-/// Static typing iterator wrapper for [`RefMut`].
+/// Iterator from [`RefMut`].
 ///
 /// # Examples
 ///
 /// ```
-/// # use core::cell::RefCell;
+/// # use std::cell::RefCell;
 /// # use ref_iter::prelude::*;
 /// #
 /// let samples = vec![1, 2, 3];
@@ -52,6 +52,15 @@ impl<'a, I> RefMutIter<'a, I> {
     }
 }
 
+impl<I> RefIteratorBase for RefMutIter<'_, I>
+where
+    I: Iterator,
+{
+    fn size_hint(&self) -> (usize, Option<usize>) {
+        self.iter.size_hint()
+    }
+}
+
 impl<'a, I, T: 'a> RefIterator for RefMutIter<'a, I>
 where
     I: Iterator<Item = &'a mut T>,
@@ -62,9 +71,19 @@ where
     fn next(&mut self) -> Option<&Self::Item> {
         self.iter.next().map(|x| &*x)
     }
+}
 
-    fn size_hint(&self) -> (usize, Option<usize>) {
-        self.iter.size_hint()
+impl<'a, I, K, V> RefKvIterator for RefMutIter<'a, I>
+where
+    I: Iterator<Item = (&'a K, &'a mut V)>,
+    K: 'a,
+    V: 'a,
+{
+    type K = K;
+    type V = V;
+
+    fn next(&mut self) -> Option<(&Self::K, &Self::V)> {
+        self.iter.next().map(|(k, v)| (k, &*v))
     }
 }
 
@@ -74,6 +93,17 @@ where
     T: 'a,
 {
     fn next_mut(&mut self) -> Option<&mut Self::Item> {
+        self.iter.next()
+    }
+}
+
+impl<'a, I, K, V> RefMutKvIterator for RefMutIter<'a, I>
+where
+    I: Iterator<Item = (&'a K, &'a mut V)>,
+    K: 'a,
+    V: 'a,
+{
+    fn next_mut(&mut self) -> Option<(&Self::K, &mut Self::V)> {
         self.iter.next()
     }
 }

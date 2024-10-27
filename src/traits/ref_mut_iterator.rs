@@ -13,7 +13,7 @@ pub trait RefMutIterator: RefIterator {
     /// # Examples
     ///
     /// ```
-    /// # use core::cell::RefCell;
+    /// # use std::cell::RefCell;
     /// # use ref_iter::prelude::*;
     /// #
     /// let samples = vec![1, 2];
@@ -30,7 +30,7 @@ pub trait RefMutIterator: RefIterator {
     /// # Examples
     ///
     /// ```
-    /// # use core::cell::RefCell;
+    /// # use std::cell::RefCell;
     /// # use ref_iter::prelude::*;
     /// #
     /// let samples = vec![(1, 1), (2, 2), (3, 3)];

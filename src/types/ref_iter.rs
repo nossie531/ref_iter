@@ -5,12 +5,12 @@ use crate::util::{lifetime, msg};
 use core::any::Any;
 use core::cell::Ref;
 
-/// Static typing iterator wrapper for [`Ref`].
+/// Iterator from [`Ref`].
 ///
 /// # Examples
 ///
 /// ```
-/// # use core::cell::RefCell;
+/// # use std::cell::RefCell;
 /// # use ref_iter::prelude::*;
 /// #
 /// let samples = vec![1, 2, 3];
@@ -57,6 +57,15 @@ where
     }
 }
 
+impl<I> RefIteratorBase for RefIter<'_, I>
+where
+    I: Iterator,
+{
+    fn size_hint(&self) -> (usize, Option<usize>) {
+        self.iter.size_hint()
+    }
+}
+
 impl<'a, I, T> RefIterator for RefIter<'a, I>
 where
     I: Iterator<Item = &'a T>,
@@ -67,8 +76,18 @@ where
     fn next(&mut self) -> Option<&Self::Item> {
         self.iter.next()
     }
+}
 
-    fn size_hint(&self) -> (usize, Option<usize>) {
-        self.iter.size_hint()
+impl<'a, I, K, V> RefKvIterator for RefIter<'a, I>
+where
+    I: Iterator<Item = (&'a K, &'a V)>,
+    K: 'a,
+    V: 'a,
+{
+    type K = K;
+    type V = V;
+
+    fn next(&mut self) -> Option<(&Self::K, &Self::V)> {
+        self.iter.next()
     }
 }

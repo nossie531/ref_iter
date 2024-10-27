@@ -6,8 +6,8 @@ use crate::util::msg;
 /// Item mapper for mutable dyanmic borrowing iterator.
 ///
 /// This struct is created by the [`RefMutIterator::map_mut`].
-#[must_use = msg::iter_must_use!()]
 #[derive(Clone, Debug)]
+#[must_use = msg::iter_must_use!()]
 pub struct RefMutMap<I, F> {
     /// Base iterator.
     iter: I,
@@ -22,6 +22,15 @@ impl<I, F> RefMutMap<I, F> {
     }
 }
 
+impl<I, F> RefIteratorBase for RefMutMap<I, F>
+where
+    I: RefIteratorBase,
+{
+    fn size_hint(&self) -> (usize, Option<usize>) {
+        self.iter.size_hint()
+    }
+}
+
 impl<I, F, T> RefIterator for RefMutMap<I, F>
 where
     I: RefMutIterator,
@@ -32,10 +41,6 @@ where
     fn next(&mut self) -> Option<&Self::Item> {
         self.iter.next_mut().map(|x| &*(self.f)(x))
     }
-
-    fn size_hint(&self) -> (usize, Option<usize>) {
-        self.iter.size_hint()
-    }
 }
 
 impl<I, F, T> RefMutIterator for RefMutMap<I, F>
@@ -44,7 +49,7 @@ where
     F: FnMut(&mut I::Item) -> &mut T,
 {
     fn next_mut(&mut self) -> Option<&mut Self::Item> {
-        self.iter.next_mut().map(|x| (self.f)(x))
+        self.iter.next_mut().map(&mut self.f)
     }
 }
 

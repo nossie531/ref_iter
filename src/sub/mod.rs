@@ -1,4 +1,4 @@
-//! Sub items.
+//! Crate's sub items.
 
 mod ref_cloned;
 mod ref_map;

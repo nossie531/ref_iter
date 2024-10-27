@@ -5,7 +5,7 @@
 /// Loop item should be irrefutable pattern.
 ///
 /// ```compile_fail
-/// # use core::cell::RefCell;
+/// # use std::cell::RefCell;
 /// # use ref_iter::prelude::*;
 /// #
 /// let samples = vec![Some(1), Some(2), None];
@@ -24,7 +24,7 @@ fn _for_ref() {
 /// Loop item should be irrefutable pattern.
 ///
 /// ```compile_fail
-/// # use core::cell::RefCell;
+/// # use std::cell::RefCell;
 /// # use ref_iter::prelude::*;
 /// #
 /// let samples = vec![Some(1), Some(2), None];

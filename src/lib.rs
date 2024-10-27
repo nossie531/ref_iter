@@ -9,24 +9,10 @@
 //! [`Ref`]: core::cell::Ref
 //! [`RefMut`]: core::cell::RefMut
 //!
-//! ## Main items
-//!
-//! Trait items.
-//!
-//! * [`RefIterator`] - Immutable dynamic borrowing iterator.
-//! * [`RefMutIterator`] - Mutable dynamic borrowing iterator.
-//!
-//! Type items.
-//!
-//! | Wrapper           | Main trait         |
-//! |-------------------|--------------------|
-//! | [`RefIter`]       | [`RefIterator`]    |
-//! | [`RefMutIter`]    | [`RefMutIterator`] |
-//!
 //! # Examples
 //!
 //! ```
-//! # use core::cell::RefCell;
+//! # use std::cell::RefCell;
 //! # use ref_iter::prelude::*;
 //! #
 //! let samples = vec![1, 2, 3];
@@ -37,7 +23,6 @@
 
 #![warn(missing_docs)]
 #![cfg_attr(not(test), no_std)]
-#![cfg_attr(all(docsrs, not(doctest)), feature(doc_auto_cfg))]
 
 pub mod closure;
 pub mod macros;

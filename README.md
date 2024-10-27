@@ -9,7 +9,7 @@ Dynamic borrowing iterator.
 ## What is this?
 
 This crate provides [iterator-like](#lending-iterator) types
-for dynamic borrowing objects (`Ref` and `RefMut`).
+for dynamic borrowing objects ([`Ref`] and [`RefMut`]).
 
 ## Examples
 
@@ -22,10 +22,15 @@ iter.cloned().eq(samples.iter().cloned());
 
 ## Main items
 
-| Trait            | Type         | Summary            |
-|------------------|--------------|--------------------|
-| `RefIterator`    | `RefIter`    | Immutable iterator |
-| `RefMutIterator` | `RefMutIter` | Mutable iterator   |
+**Trait**
+* `RefIterator` - Immutable dynamic borrowing iterator.
+* `RefKvIterator` - Immutable dynamic borrowing key-value iterator.
+* `RefMutIterator` - Mutable dynamic borrowing iterator.
+* `RefMutKvIterator` - Mutable dynamic borrowing key-value iterator.
+
+**Type**
+* `RefIter` - Iterator from `Ref`.
+* `RefMutIter` - Iterator from `RefMut`.
 
 ## Lending-iterator
 
@@ -47,10 +52,6 @@ implementations of lending-Iterator requires GAT (Generic Associated Type).
 However, as of 2024, GAT has some [limitations][gat-issue]. And workarounds
 like [nougat] complicate the API. Therefore, We are not using GAT for this
 crate for simplicity.
-
-[gat-issue]:https://blog.rust-lang.org/2022/10/28/gats-stabilization.html
-[nougat]:https://crates.io/crates/nougat
-[`Iterator`]:https://doc.rust-lang.org/stable/std/iter/trait.Iterator.html
 
 ## Iterator conversion
 
@@ -77,3 +78,16 @@ For example, about `RefIter`.
 - Iterators taken from `Ref` are safe to use as long as `Ref` is available.
 - However, borrow checker does not allow to save the iterator with `Ref`.
 - Unsafe operation solves this problem by hiding origin of references.
+
+## Notes for the future
+
+Currently (2024), this crate has many types and traits to implement [Lending
+Iterator](#lending-iterator) without GAT. Future Rust releases may resolve
+these problems. As a result, for example, `RefKvIterator` will be merged
+into `RefIterator`.
+
+[`Ref`]:https://doc.rust-lang.org/core/cell/struct.Ref.html
+[`RefMut`]:https://doc.rust-lang.org/core/cell/struct.RefMut.html
+[`Iterator`]:https://doc.rust-lang.org/core/iter/trait.Iterator.html
+[gat-issue]:https://blog.rust-lang.org/2022/10/28/gats-stabilization.html
+[nougat]:https://crates.io/crates/nougat

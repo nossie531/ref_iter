@@ -1,11 +1,11 @@
 //! Macro imports.
 
-/// for-in loop with [`IntoRefIterator`](crate::IntoRefIterator).
+/// For-in loop with [`IntoRefIterator`](crate::IntoRefIterator).
 ///
 /// # Examples
 ///
 /// ```
-/// # use core::cell::RefCell;
+/// # use std::cell::RefCell;
 /// # use ref_iter::prelude::*;
 /// #
 /// let samples = vec![1, 2, 3];
@@ -23,12 +23,12 @@
 /// <!-- insert -->
 pub use ref_iter_macro::for_ref;
 
-/// for-in loop with [`IntoRefMutIterator`](crate::IntoRefMutIterator).
+/// For-in loop with [`IntoRefMutIterator`](crate::IntoRefMutIterator).
 ///
 /// # Examples
 ///
 /// ```
-/// # use core::cell::RefCell;
+/// # use std::cell::RefCell;
 /// # use ref_iter::prelude::*;
 /// #
 /// let samples = vec![1, 2, 3];

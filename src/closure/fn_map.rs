@@ -10,5 +10,5 @@ impl<F, I, O> FnMap<I> for F
 where
     F: FnMut(I) -> O,
 {
-    type Output = O;
+    type Output = F::Output;
 }

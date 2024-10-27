@@ -5,9 +5,9 @@ use crate::prelude::*;
 use crate::sub::{RefCloned, RefMap};
 use crate::util::msg;
 
-/// Dynamic borrowing iterator.
+/// Immutable dynamic borrowing iterator.
 #[must_use = msg::iter_must_use!()]
-pub trait RefIterator {
+pub trait RefIterator: RefIteratorBase {
     /// The type of the elements being iterated over.
     type Item: ?Sized;
 
@@ -16,7 +16,7 @@ pub trait RefIterator {
     /// # Examples
     ///
     /// ```
-    /// # use core::cell::RefCell;
+    /// # use std::cell::RefCell;
     /// # use ref_iter::prelude::*;
     /// #
     /// let samples = vec![1, 2];
@@ -28,31 +28,12 @@ pub trait RefIterator {
     /// ```
     fn next(&mut self) -> Option<&Self::Item>;
 
-    /// Returns the bounds on the remaining length of the iterator.
-    ///
-    /// # Examples
-    ///
-    /// ```
-    /// # use core::cell::RefCell;
-    /// # use ref_iter::prelude::*;
-    /// #
-    /// let samples = vec![1, 2, 3];
-    /// let src = RefCell::new(samples.clone());
-    /// let iter = RefIter::new(src.borrow(), |x| x.iter());
-    /// let hint = iter.size_hint();
-    /// drop(iter);
-    /// assert_eq!(hint, src.borrow().iter().size_hint());
-    /// ```
-    fn size_hint(&self) -> (usize, Option<usize>) {
-        (0, None)
-    }
-
     /// Creates an iterator that clone dynamic borrowing elements.
     ///
     /// # Examples
     ///
     /// ```
-    /// # use core::cell::RefCell;
+    /// # use std::cell::RefCell;
     /// # use ref_iter::prelude::*;
     /// #
     /// let samples = vec![1, 2, 3];
@@ -73,13 +54,13 @@ pub trait RefIterator {
     /// # Examples
     ///
     /// ```
-    /// # use core::cell::RefCell;
+    /// # use std::cell::RefCell;
     /// # use ref_iter::prelude::*;
     /// #
     /// let samples = vec![1, 2, 3];
     /// let src = RefCell::new(samples.clone());
     /// let iter = RefIter::new(src.borrow(), |x| x.iter());
-    /// let iter = iter.map(|x: &_| *x + 1).into_iter();
+    /// let iter = iter.map(|x: &_| x + 1).into_iter();
     /// assert!(iter.eq(samples.iter().map(|x| x + 1)));
     /// ```
     fn map<F>(self, f: F) -> RefMap<Self, F>
@@ -95,7 +76,7 @@ pub trait RefIterator {
     /// # Examples
     ///
     /// ```
-    /// # use core::cell::RefCell;
+    /// # use std::cell::RefCell;
     /// # use ref_iter::prelude::*;
     /// #
     /// let samples = vec![1, 2, 3];

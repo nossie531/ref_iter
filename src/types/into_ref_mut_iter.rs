@@ -8,7 +8,7 @@ use crate::util::msg;
 /// # Examples
 ///
 /// ```
-/// # use core::cell::RefCell;
+/// # use std::cell::RefCell;
 /// # use ref_iter::prelude::*;
 /// #
 /// let mut samples = vec![1, 2, 3];
@@ -41,6 +41,16 @@ where
         Self {
             iter: iter.into_iter(),
         }
+    }
+}
+
+impl<'a, I, T> RefIteratorBase for IntoRefMutIter<'a, I, T>
+where
+    I: Iterator<Item = &'a mut T>,
+    T: 'a,
+{
+    fn size_hint(&self) -> (usize, Option<usize>) {
+        self.iter.size_hint()
     }
 }
 
