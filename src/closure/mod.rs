@@ -1,5 +1,5 @@
 //! Closure helpers.
 
-mod fn_mut;
+mod fn_map;
 
-pub use fn_mut::*;
+pub use fn_map::*;
