@@ -1,6 +1,6 @@
 //! Error manipulation utilities.
 
-use crate::ra_macro_util::WithError;
+use crate::util::ra_friendly::WithError;
 use syn::Error;
 
 /// Collect errors.
