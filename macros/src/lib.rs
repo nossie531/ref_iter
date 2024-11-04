@@ -6,14 +6,14 @@
 #![warn(missing_docs)]
 #![warn(clippy::missing_docs_in_private_items)]
 
-mod syn_node;
+mod tree;
 mod util;
 
 use proc_macro as pm;
 use proc_macro2::TokenStream;
 use quote::ToTokens;
 use syn::parse::{ParseBuffer, Parser};
-use syn_node::ForRef;
+use tree::ForRef;
 
 /// Immutable for-in loop macro.
 #[proc_macro]

@@ -1,4 +1,4 @@
-//! Syntax nodes.
+//! Syntax tree.
 
 mod for_ref;
 
