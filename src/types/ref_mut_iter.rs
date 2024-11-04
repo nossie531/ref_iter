@@ -41,13 +41,11 @@ impl<'a, I> RefMutIter<'a, I> {
         S: Any,
         F: Fn(&'a mut S) -> I,
     {
-        unsafe {
-            let cell_val = lifetime::reset_mut(&mut *src);
-            let cell_iter = f(cell_val);
-            Self {
-                _src: src,
-                iter: cell_iter,
-            }
+        let cell_val = unsafe { lifetime::reset_mut(&mut *src) };
+        let cell_iter = f(cell_val);
+        Self {
+            _src: src,
+            iter: cell_iter,
         }
     }
 }

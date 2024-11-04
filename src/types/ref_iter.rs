@@ -34,13 +34,11 @@ impl<'a, I> RefIter<'a, I> {
         S: Any,
         F: Fn(&'a S) -> I,
     {
-        unsafe {
-            let cell_val = lifetime::reset_ref(&*src);
-            let cell_iter = f(cell_val);
-            Self {
-                _src: src,
-                iter: cell_iter,
-            }
+        let cell_val = unsafe { lifetime::reset_ref(&*src) };
+        let cell_iter = f(cell_val);
+        Self {
+            _src: src,
+            iter: cell_iter,
         }
     }
 }
