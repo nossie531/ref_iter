@@ -6,7 +6,7 @@ edition = "2021"
 description = "Macros for 'ref_iter'."
 repository = "https://github.com/nossie531/ref_iter"
 license = "MIT OR Apache-2.0"
-keywords = ["for_ref"]
+keywords = ["macro"]
 
 [lib]
 proc-macro = true
