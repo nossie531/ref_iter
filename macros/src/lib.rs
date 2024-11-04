@@ -46,9 +46,6 @@ fn parse_for_ref_mut(input: ParseStream) -> Result<TokenStream> {
 
 /// Parse for-in loop macro.
 fn parse_for_loop(input: ParseStream, mutable: bool) -> Result<TokenStream> {
-    let mut ret = TokenStream::new();
-    let syn_for = ForRef::parse(input, mutable);
-    ret.extend(syn_for.to_token_stream());
-    ret.extend(syn_for.err().map(Error::to_compile_error));
-    Ok(syn_for.to_token_stream())
+    let ret = ForRef::parse(input, mutable);
+    Ok(ret.to_token_stream())
 }
