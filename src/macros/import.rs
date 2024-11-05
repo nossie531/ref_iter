@@ -16,7 +16,7 @@
 /// for_ref!(x in iter {
 ///     sum += *x
 /// });
-/// 
+///
 /// assert_eq!(sum, 6);
 /// ```
 ///
@@ -85,7 +85,7 @@ pub use ref_iter_macro::for_ref_mut;
 /// for_ref_mut_kv!((k, v) in iter {
 ///     *v = *k as f32;
 /// });
-/// 
+///
 /// let iter = RefIter::new(cell.borrow(), |x| x.iter());
 /// for_ref_kv!((k, v) in iter {
 ///     assert_eq!(*k as f32, *v);

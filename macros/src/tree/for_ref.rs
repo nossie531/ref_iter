@@ -10,7 +10,7 @@ use syn::{Expr, Pat};
 
 /// Syntax node of for-in loop macro.
 pub struct ForRef {
-    /// Mutable loop flag.
+    /// node kind.
     kind: ForRefKind,
     /// Loop item pattern.
     item: Pat,
@@ -49,9 +49,14 @@ impl ForRef {
     }
 
     /// Create token stream from components.
-    fn out(kind: ForRefKind, item: TokenStream, iter: TokenStream, body: TokenStream) -> TokenStream {
+    fn out(
+        kind: ForRefKind,
+        item: TokenStream,
+        iter: TokenStream,
+        body: TokenStream,
+    ) -> TokenStream {
         let ns = quote! {ref_iter::macros::private};
-        let loop_fn = match (kind.mutable(), kind.for_map()) {
+        let loop_fn = match (kind.is_mutable(), kind.is_for_map()) {
             (false, false) => quote! {#ns::exec_for_ref},
             (false, true) => quote! {#ns::exec_for_ref_kv},
             (true, false) => quote! {#ns::exec_for_ref_mut},
