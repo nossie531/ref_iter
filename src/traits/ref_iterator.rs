@@ -88,7 +88,7 @@ pub trait RefIterator: RefIteratorBase {
     fn eq<I>(mut self, other: I) -> bool
     where
         Self: Sized,
-        Self::Item: PartialEq<<I::IntoRefIter as RefIterator>::Item>,
+        Self::Item: PartialEq<I::Item>,
         I: IntoRefIterator,
     {
         let mut iter = other.into_ref_iter();
