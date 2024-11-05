@@ -13,7 +13,10 @@ pub struct ForRefKind {
 impl ForRefKind {
     /// Create a new value.
     pub fn new(is_mutable: bool, is_for_map: bool) -> Self {
-        Self { is_mutable, is_for_map }
+        Self {
+            is_mutable,
+            is_for_map,
+        }
     }
 
     /// Returns `true` if this node is for mutable loop.
