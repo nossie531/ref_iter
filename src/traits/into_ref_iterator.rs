@@ -1,6 +1,6 @@
 //! Provider of [`IntoRefIterator`].
 
-use crate::*;
+use crate::prelude::*;
 
 /// Conversion into [`RefIterator`].
 pub trait IntoRefIterator {

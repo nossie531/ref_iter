@@ -1,6 +1,6 @@
 //! Provider of [`IntoRefMutIterator`].
 
-use crate::*;
+use crate::prelude::*;
 
 /// Conversion into [`RefMutIterator`].
 pub trait IntoRefMutIterator {

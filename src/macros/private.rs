@@ -1,6 +1,6 @@
 //! Private items for macro.
 
-use crate::{IntoRefIterator, IntoRefMutIterator, RefIterator, RefMutIterator};
+use crate::prelude::*;
 
 /// Exec immutable for loop.
 ///
