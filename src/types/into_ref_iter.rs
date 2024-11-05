@@ -3,7 +3,7 @@
 use crate::prelude::*;
 use crate::util::msg;
 
-/// Adapter that turns [`Iterator`] to [`RefIterator`].
+/// Adapter that turns [`Iterator`] into [`RefIterator`].
 ///
 /// # Examples
 ///

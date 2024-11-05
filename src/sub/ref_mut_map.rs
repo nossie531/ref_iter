@@ -5,7 +5,7 @@ use crate::util::msg;
 
 /// Item mapper for mutable dyanmic borrowing iterator.
 ///
-/// This struct is created by the [`RefMutIterator::map_mut`].
+/// This struct is created by [`RefMutIterator::map_mut`].
 #[derive(Clone, Debug)]
 #[must_use = msg::iter_must_use!()]
 pub struct RefMutMap<I, F> {

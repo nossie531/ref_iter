@@ -1,8 +1,8 @@
+//! Provider of [`RefKvIterator`].
+
 use crate::RefIteratorBase;
 
-/// Provider of [`RefKvIterator`].
-
-/// Dynamic borrowing key-value iterator.
+/// Immutable dynamic borrowing key-value iterator.
 pub trait RefKvIterator: RefIteratorBase {
     /// The key type of the elements being iterated over.
     type K: ?Sized;

@@ -3,9 +3,9 @@
 use crate::prelude::*;
 use crate::util::msg;
 
-/// An iterator that clones elements of dynamic borrowing itefator.
+/// An iterator that clones elements of dynamic borrowing iterator.
 ///
-/// This struct is created by the [`RefIterator::cloned`].
+/// This struct is created by [`RefIterator::cloned`].
 #[derive(Clone, Debug)]
 #[must_use = msg::iter_must_use!()]
 pub struct RefCloned<I> {
