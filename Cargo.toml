@@ -1,16 +1,23 @@
 [workspace]
 members = ["macros"]
 
-[package]
-name = "ref_iter"
+[workspace.package]
 version = "0.1.0"
 authors = ["Nossie531"]
 edition = "2021"
-description = "Dynamic borrowing iterator."
 repository = "https://github.com/nossie531/ref_iter"
 license = "MIT OR Apache-2.0"
+
+[package]
+name = "ref_iter"
+description = "Dynamic borrowing iterator."
 keywords = ["Ref", "RefMut", "RefCell", "Iterator"]
 categories = ["no-std", "rust-patterns"]
+version.workspace = true
+authors.workspace = true
+edition.workspace = true
+repository.workspace = true
+license.workspace = true
 
 [dependencies]
 ref_iter_macro = { path = "macros", version = "0.1.0" }
