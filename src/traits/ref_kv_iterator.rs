@@ -16,9 +16,9 @@ pub trait RefKvIterator: RefIteratorBase {
     /// ```
     /// # use ref_iter::prelude::*;
     /// # use std::cell::RefCell;
-    /// # use std::collections::HashMap;
+    /// # use std::collections::BTreeMap;
     /// #
-    /// let samples = HashMap::from([(1, 1), (2, 2)]);
+    /// let samples = BTreeMap::from([(1, 1), (2, 2)]);
     /// let src = RefCell::new(samples.clone());
     /// let mut iter = RefIter::new(src.borrow(), |x| x.iter());
     /// assert_eq!(iter.next(), Some((&1, &1)));
