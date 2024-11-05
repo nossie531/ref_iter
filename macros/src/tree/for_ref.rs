@@ -1,5 +1,6 @@
 //! Provider of [`ForRef`].
 
+use crate::tree::ForRefKind;
 use crate::util::ra_friendly::{errors, Parser, SoftResult};
 use proc_macro2::TokenStream;
 use quote::{quote, ToTokens};
@@ -7,10 +8,10 @@ use syn::parse::{Parse, ParseStream};
 use syn::token::In;
 use syn::{Expr, Pat};
 
-/// Syntax node for for-in loop macro.
+/// Syntax node of for-in loop macro.
 pub struct ForRef {
     /// Mutable loop flag.
-    mutable: bool,
+    kind: ForRefKind,
     /// Loop item pattern.
     item: Pat,
     /// Loop iterator expression.
@@ -21,7 +22,7 @@ pub struct ForRef {
 
 impl ForRef {
     /// Parse input and create this instance.
-    pub fn parse(input: ParseStream, mutable: bool) -> SoftResult<Self> {
+    pub fn parse(input: ParseStream, kind: ForRefKind) -> SoftResult<Self> {
         let parser = Parser::new(input);
         let item = parser.parse_pat(Pat::parse_single);
         let r#in = parser.parse_to(In::parse);
@@ -34,13 +35,13 @@ impl ForRef {
             let item = item.to_token_stream();
             let iter = iter.to_token_stream();
             let body = body.to_token_stream();
-            let alt = Self::out(mutable, item, iter, body);
+            let alt = Self::out(kind, item, iter, body);
             parser.parse_to_end();
             return SoftResult::new(Err(err)).set_alt(alt);
         }
 
         SoftResult::new(Ok(Self {
-            mutable,
+            kind,
             item: item.value(),
             iter: iter.value(),
             body: body.value(),
@@ -48,12 +49,17 @@ impl ForRef {
     }
 
     /// Create token stream from components.
-    fn out(mutable: bool, item: TokenStream, iter: TokenStream, body: TokenStream) -> TokenStream {
-        let loop_fn_ref = quote! {exec_for_ref};
-        let loop_fn_mut = quote! {exec_for_ref_mut};
-        let loop_fn = if mutable { loop_fn_mut } else { loop_fn_ref };
+    fn out(kind: ForRefKind, item: TokenStream, iter: TokenStream, body: TokenStream) -> TokenStream {
+        let ns = quote! {ref_iter::macros::private};
+        let loop_fn = match (kind.mutable(), kind.for_map()) {
+            (false, false) => quote! {#ns::exec_for_ref},
+            (false, true) => quote! {#ns::exec_for_ref_kv},
+            (true, false) => quote! {#ns::exec_for_ref_mut},
+            (true, true) => quote! {#ns::exec_for_ref_mut_kv},
+        };
+
         quote! {{
-            ref_iter::macros::private::#loop_fn(#iter, |x| {
+            #loop_fn(#iter, |x| {
                 let #item = x;
                 #body;
             });
@@ -63,11 +69,11 @@ impl ForRef {
 
 impl ToTokens for ForRef {
     fn to_tokens(&self, tokens: &mut TokenStream) {
-        let mutable = self.mutable;
+        let kind = self.kind;
         let item = self.item.to_token_stream();
         let iter = self.iter.to_token_stream();
         let body = self.body.to_token_stream();
-        let output = Self::out(mutable, item, iter, body);
+        let output = Self::out(kind, item, iter, body);
         tokens.extend(output);
     }
 }

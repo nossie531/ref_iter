@@ -22,13 +22,13 @@ assert!(iter.cloned().eq(samples.iter().cloned()));
 
 ## Main items
 
-**Trait**
+**Traits**
 * `RefIterator` - Immutable dynamic borrowing iterator.
 * `RefKvIterator` - Immutable dynamic borrowing key-value iterator.
 * `RefMutIterator` - Mutable dynamic borrowing iterator.
 * `RefMutKvIterator` - Mutable dynamic borrowing key-value iterator.
 
-**Type**
+**Types**
 * `RefIter` - Iterator from `Ref`.
 * `RefMutIter` - Iterator from `RefMut`.
 
@@ -44,14 +44,38 @@ Note lending-iterator does not implement [`Iterator`]. Therefore, it does
 not support iterator loop syntax (for-in). And also it does not support
 various methods like `Iterator`. However, these are not so big problems.
 Because, instead of iterator loop syntax, you can use other loop syntax
-or this crate's macros (`for_ref` and `for_ref_mut`). And also, the lack
-of methods can be covered by [iterator conversion](#iterator-conversion).
+or this crate's [macros](#macros). And also, the lack of methods can be
+covered by [iterator conversion](#iterator-conversion).
 
 This crate is not keen on abstraction for lending-iterator. Because ideal
 implementations of lending-Iterator requires GAT (Generic Associated Type).
 However, as of 2024, GAT has some [limitations][gat-issue]. And workarounds
 like [nougat] complicate the API. Therefore, We are not using GAT for this
 crate for simplicity.
+
+## Macros
+
+Followings are macros to perform for-in loops with various lending-iterator.
+
+* `for_ref` - Immutable loop.
+* `for_ref_kv` - Immutable key-value loop.
+* `for_ref_mut` - Mutable loop.
+* `for_ref_mut_kv` - Mutable key-value loop.
+
+For example, `for_ref` macro can be used as follows.
+
+```rust
+let samples = vec![1, 2, 3];
+let cell = RefCell::new(samples.clone());
+let iter = RefIter::new(cell.borrow(), |x| x.iter());
+let mut sum = 0;
+
+for_ref!(x in iter {
+    sum += *x
+});
+
+assert_eq!(sum, 6);
+```
 
 ## Iterator conversion
 
@@ -81,7 +105,7 @@ For example, about `RefIter`.
 
 ## Notes for the future
 
-Currently (2024), this crate has many types and traits to implement [Lending
+Currently (2024), this crate has many types and traits to implement [lending-\
 Iterator](#lending-iterator) without GAT. Future Rust releases may resolve
 these problems. As a result, for example, `RefKvIterator` will be merged
 into `RefIterator`.
