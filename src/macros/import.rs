@@ -1,6 +1,6 @@
 //! Macro imports.
 
-/// For-in loop with [`IntoRefIterator`](crate::IntoRefIterator).
+/// Immutable for-in loop with dynamic borrowings.
 ///
 /// # Examples
 ///
@@ -23,7 +23,7 @@
 /// <!-- insert -->
 pub use ref_iter_macro::for_ref;
 
-/// For-in loop with [`IntoRefMutIterator`](crate::IntoRefMutIterator).
+/// Mutable for-in loop with dynamic borrowings.
 ///
 /// # Examples
 ///

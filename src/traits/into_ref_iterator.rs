@@ -2,7 +2,7 @@
 
 use crate::prelude::*;
 
-/// Conversion into [`RefIterator`].
+/// Conversion into an [`RefIterator`].
 pub trait IntoRefIterator {
     /// The type of the elements being iterated over.
     type Item: ?Sized;

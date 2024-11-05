@@ -2,7 +2,7 @@
 
 use crate::prelude::*;
 
-/// Conversion into [`RefMutIterator`].
+/// Conversion into an [`RefMutIterator`].
 pub trait IntoRefMutIterator {
     /// The type of the elements being iterated over.
     type Item: ?Sized;
