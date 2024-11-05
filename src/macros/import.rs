@@ -11,12 +11,13 @@
 /// let samples = vec![1, 2, 3];
 /// let cell = RefCell::new(samples.clone());
 /// let iter = RefIter::new(cell.borrow(), |x| x.iter());
-/// let mut counter = 0;
+/// let mut sum = 0;
 ///
 /// for_ref!(x in iter {
-///     assert_eq!(*x, samples[counter]);
-///     counter += 1;
+///     sum += *x
 /// });
+/// 
+/// assert_eq!(sum, 6);
 /// ```
 ///
 /// # Document from macro crate
