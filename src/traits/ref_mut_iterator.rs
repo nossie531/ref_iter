@@ -13,8 +13,8 @@ pub trait RefMutIterator: RefIterator {
     /// # Examples
     ///
     /// ```
-    /// # use std::cell::RefCell;
     /// # use ref_iter::prelude::*;
+    /// # use std::cell::RefCell;
     /// #
     /// let samples = vec![1, 2];
     /// let src = RefCell::new(samples.clone());
@@ -30,8 +30,8 @@ pub trait RefMutIterator: RefIterator {
     /// # Examples
     ///
     /// ```
-    /// # use std::cell::RefCell;
     /// # use ref_iter::prelude::*;
+    /// # use std::cell::RefCell;
     /// #
     /// let samples = vec![(1, 1), (2, 2), (3, 3)];
     /// let sec_mut = (|x: &mut(i32, i32)| &mut x.1) as fn(&mut _) -> &mut _;

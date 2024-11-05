@@ -5,8 +5,8 @@
 /// Loop item should be irrefutable pattern.
 ///
 /// ```compile_fail
-/// # use std::cell::RefCell;
 /// # use ref_iter::prelude::*;
+/// # use std::cell::RefCell;
 /// #
 /// let samples = vec![Some(1), Some(2), None];
 /// let cell = RefCell::new(samples.clone());
@@ -24,8 +24,8 @@ fn _for_ref() {
 /// Loop item should be irrefutable pattern.
 ///
 /// ```compile_fail
-/// # use std::cell::RefCell;
 /// # use ref_iter::prelude::*;
+/// # use std::cell::RefCell;
 /// #
 /// let samples = vec![Some(1), Some(2), None];
 /// let cell = RefCell::new(samples.clone());

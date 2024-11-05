@@ -8,8 +8,8 @@ use crate::util::msg;
 /// # Examples
 ///
 /// ```
-/// # use std::cell::RefCell;
 /// # use ref_iter::prelude::*;
+/// # use std::cell::RefCell;
 /// #
 /// let mut samples = vec![1, 2, 3];
 /// let mut iter = IntoRefMutIter::new(samples.iter_mut());

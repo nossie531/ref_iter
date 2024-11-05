@@ -8,11 +8,11 @@ pub trait RefMutKvIterator: RefKvIterator {
     ///
     /// # Examples
     /// ```
-    /// # use std::cell::RefCell;
-    /// # use std::collections::BTreeMap;
     /// # use ref_iter::prelude::*;
+    /// # use std::cell::RefCell;
+    /// # use std::collections::HashMap;
     /// #
-    /// let mut samples = BTreeMap::from([(1, 1), (2, 2)]);
+    /// let mut samples = HashMap::from([(1, 1), (2, 2)]);
     /// let src = RefCell::new(samples.clone());
     /// let mut iter = RefMutIter::new(src.borrow_mut(), |x| x.iter_mut());
     /// assert_eq!(iter.next_mut(), Some((&1, &mut 1)));

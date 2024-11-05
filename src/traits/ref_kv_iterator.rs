@@ -14,11 +14,11 @@ pub trait RefKvIterator: RefIteratorBase {
     ///
     /// # Examples
     /// ```
-    /// # use std::cell::RefCell;
-    /// # use std::collections::BTreeMap;
     /// # use ref_iter::prelude::*;
+    /// # use std::cell::RefCell;
+    /// # use std::collections::HashMap;
     /// #
-    /// let samples = BTreeMap::from([(1, 1), (2, 2)]);
+    /// let samples = HashMap::from([(1, 1), (2, 2)]);
     /// let src = RefCell::new(samples.clone());
     /// let mut iter = RefIter::new(src.borrow(), |x| x.iter());
     /// assert_eq!(iter.next(), Some((&1, &1)));

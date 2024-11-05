@@ -10,8 +10,8 @@ use core::cell::RefMut;
 /// # Examples
 ///
 /// ```
-/// # use std::cell::RefCell;
 /// # use ref_iter::prelude::*;
+/// # use std::cell::RefCell;
 /// #
 /// let samples = vec![1, 2, 3];
 /// let cell = RefCell::new(samples.clone());
