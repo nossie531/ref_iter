@@ -17,7 +17,7 @@ for dynamic borrowing objects ([`Ref`] and [`RefMut`]).
 let samples = vec![1, 2, 3];
 let src = RefCell::new(samples.clone());
 let iter = RefIter::new(src.borrow(), |x| x.iter());
-iter.cloned().eq(samples.iter().cloned());
+assert!(iter.cloned().eq(samples.iter().cloned()));
 ```
 
 ## Main items
