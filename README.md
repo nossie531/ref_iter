@@ -11,6 +11,9 @@ Dynamic borrowing iterator.
 This crate provides [iterator-like](#lending-iterator) types
 for dynamic borrowing objects ([`Ref`] and [`RefMut`]).
 
+[`Ref`]:https://doc.rust-lang.org/core/cell/struct.Ref.html
+[`RefMut`]:https://doc.rust-lang.org/core/cell/struct.RefMut.html
+
 ## Examples
 
 ```rust
@@ -40,20 +43,34 @@ At lending-iterator, when it is destroyed, the item is also unavailable.
 Core idea of this crate is to link this lending iterator behavior
 with the destruction of dynamic borrowing.
 
-Note lending-iterator does not implement [`Iterator`]. Therefore, it does
-not support iterator loop syntax (for-in). And also it does not support
-various methods like `Iterator`. However, these are not so big problems.
-Because, instead of iterator loop syntax, you can use other loop syntax
-or this crate's [macros](#macros). And also, the lack of methods can be
-covered by [iterator conversion](#iterator-conversion).
+Note lending-iterator does not implement [`Iterator`].
+So, followings are not supported.
 
-This crate is not keen on abstraction for lending-iterator. Because ideal
-implementations of lending-Iterator requires GAT (Generic Associated Type).
+* For-in loop syntax 
+* Various methods of `Iterator` 
+
+However, these are not so big problems. Because, instead of for-in loop,
+[loop macros](#loop-macros) is supported. Instead of iterator methods,
+[iterator conversion](#iterator-conversion) is supported. And also,
+we can use iterator methods at lending-iterator construction.
+
+[`Iterator`]:https://doc.rust-lang.org/core/iter/trait.Iterator.html
+
+### Old-fashioned implementation.
+
+Currently, this crate's lending-Iterator implementation is not so cool.
+Because ideal its implementations requires GAT (Generic Associated Type).
 However, as of 2024, GAT has some [limitations][gat-issue]. And workarounds
 like [nougat] complicate the API. Therefore, We are not using GAT for this
 crate for simplicity.
 
-## Macros
+If future Rust resolve this problem, this crate can delete many types and
+traits. for example, `RefMutIterator` will be merged into `RefIterator`.
+
+[gat-issue]:https://blog.rust-lang.org/2022/10/28/gats-stabilization.html
+[nougat]:https://crates.io/crates/nougat
+
+## Loop macros
 
 Followings are macros to perform for-in loops with various lending-iterator.
 
@@ -84,8 +101,10 @@ and lending-iterator.
 
 **Lending -> Normal**
 * `RefIterator::cloned()`
-* `RefIterator::map(f)` with `RefMap::into_iter()`
-* `RefMutIterator::map_mut(f)` with `RefMutMap::into_iter()`
+* `RefIterator::map(f)`
+* `RefKvIterator::map(f)`
+* `RefMutIterator::map_mut(f)`
+* `RefMutKvIterator::map_mut(f)`
 
 **Normal -> Lending**
 * `IntoRefIter::new(i)`
@@ -102,16 +121,3 @@ For example, about `RefIter`.
 - Iterators taken from `Ref` are safe to use as long as `Ref` is available.
 - However, borrow checker does not allow to save the iterator with `Ref`.
 - Unsafe operation solves this problem by hiding origin of references.
-
-## Notes for the future
-
-Currently (2024), this crate has many types and traits to implement [lending-\
-Iterator](#lending-iterator) without GAT. Future Rust releases may resolve
-these problems. As a result, for example, `RefKvIterator` will be merged
-into `RefIterator`.
-
-[`Ref`]:https://doc.rust-lang.org/core/cell/struct.Ref.html
-[`RefMut`]:https://doc.rust-lang.org/core/cell/struct.RefMut.html
-[`Iterator`]:https://doc.rust-lang.org/core/iter/trait.Iterator.html
-[gat-issue]:https://blog.rust-lang.org/2022/10/28/gats-stabilization.html
-[nougat]:https://crates.io/crates/nougat

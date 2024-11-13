@@ -1,36 +1,37 @@
-//! Provider of [`RefMutMap`].
+//! Provider of [`RefMutKvMap`].
 
 use crate::prelude::*;
 use crate::util::msg;
 
-/// Item mapper for mutable dyanmic borrowing iterator.
+/// Item mapper for mutable dyanmic borrowing key-value iterator.
 ///
-/// This struct is created by [`RefMutIterator::map_mut`].
+/// This struct is created by [`RefMutKvIterator::map_mut`].
 #[derive(Clone, Debug)]
 #[must_use = msg::iter_must_use!()]
-pub struct RefMutMap<I, F> {
+pub struct RefMutKvMap<I, F> {
     /// Base iterator.
     iter: I,
     /// Closure for each item mapping.
     f: F,
 }
 
-impl<I, F> RefMutMap<I, F> {
+impl<I, F> RefMutKvMap<I, F> {
     /// Create new value.
     pub(crate) fn new(iter: I, f: F) -> Self {
         Self { iter, f }
     }
 }
 
-impl<B, I, F> Iterator for RefMutMap<I, F>
+impl<B, I, F> Iterator for RefMutKvMap<I, F>
 where
-    I: RefMutIterator,
-    F: FnMut(&mut I::Item) -> B,
+    I: RefMutKvIterator,
+    F: FnMut(&I::K, &mut I::V) -> B,
 {
     type Item = B;
 
     fn next(&mut self) -> Option<Self::Item> {
-        Some((self.f)(self.iter.next_mut()?))
+        let item = self.iter.next_mut()?;
+        Some((self.f)(item.0, item.1))
     }
 
     fn size_hint(&self) -> (usize, Option<usize>) {

@@ -1,6 +1,5 @@
 //! Provider of [`RefMutIterator`].
 
-use crate::closure::FnMap;
 use crate::prelude::*;
 use crate::sub::RefMutMap;
 use crate::util::msg;
@@ -33,24 +32,19 @@ pub trait RefMutIterator: RefIterator {
     /// # use ref_iter::prelude::*;
     /// # use std::cell::RefCell;
     /// #
-    /// let samples = vec![(1, 1), (2, 2), (3, 3)];
-    /// let sec_mut = (|x: &mut(i32, i32)| &mut x.1) as fn(&mut _) -> &mut _;
-    /// let cell = RefCell::new(samples.clone());
-    /// let iter = RefMutIter::new(cell.borrow_mut(), |x| x.iter_mut());
-    /// let mut iter = iter.map_mut(sec_mut);
-    /// while let Some(item) = iter.next_mut() {
-    ///     *item = 0;
-    /// }
-    /// drop(iter);
+    /// let samples = vec![1, 2, 3];
+    /// let src = RefCell::new(samples.clone());
+    /// let iter = RefMutIter::new(src.borrow_mut(), |x| x.iter_mut());
+    /// let iter = iter.map_mut(|x| { *x += 1; *x }).into_iter();
     ///
-    /// let results = cell.into_inner();
-    /// let expecteds = vec![(1, 0), (2, 0), (3, 0)];
-    /// assert_eq!(results, expecteds);
+    /// assert!(iter.eq(samples.iter().map(|x| x + 1)));
+    /// let iter = RefIter::new(src.borrow(), |x| x.iter()).cloned();
+    /// assert!(iter.eq(samples.iter().map(|x| x + 1)));
     /// ```
-    fn map_mut<F>(self, f: F) -> RefMutMap<Self, F>
+    fn map_mut<B, F>(self, f: F) -> RefMutMap<Self, F>
     where
         Self: Sized,
-        F: for<'a> FnMap<&'a mut Self::Item>,
+        F: FnMut(&mut Self::Item) -> B,
     {
         RefMutMap::new(self, f)
     }

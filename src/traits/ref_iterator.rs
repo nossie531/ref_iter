@@ -1,6 +1,5 @@
 //! Provider of [`RefIterator`].
 
-use crate::closure::FnMap;
 use crate::prelude::*;
 use crate::sub::{RefCloned, RefMap};
 use crate::util::msg;
@@ -60,13 +59,13 @@ pub trait RefIterator: RefIteratorBase {
     /// let samples = vec![1, 2, 3];
     /// let src = RefCell::new(samples.clone());
     /// let iter = RefIter::new(src.borrow(), |x| x.iter());
-    /// let iter = iter.map(|x: &_| x + 1).into_iter();
+    /// let iter = iter.map(|x: &_| x + 1);
     /// assert!(iter.eq(samples.iter().map(|x| x + 1)));
     /// ```
-    fn map<F>(self, f: F) -> RefMap<Self, F>
+    fn map<B, F>(self, f: F) -> RefMap<Self, F>
     where
         Self: Sized,
-        F: for<'a> FnMap<&'a Self::Item>,
+        F: FnMut(&Self::Item) -> B,
     {
         RefMap::new(self, f)
     }

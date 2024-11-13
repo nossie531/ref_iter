@@ -24,7 +24,6 @@
 #![warn(missing_docs)]
 #![cfg_attr(not(test), no_std)]
 
-pub mod closure;
 pub mod macros;
 pub mod prelude;
 mod sub;
