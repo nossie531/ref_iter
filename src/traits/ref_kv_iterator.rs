@@ -2,6 +2,10 @@
 
 use crate::prelude::*;
 use crate::RefKvMap;
+use core::ops::DerefMut;
+
+#[cfg(feature = "alloc")]
+use alloc::boxed::Box;
 
 /// Immutable dynamic borrowing key-value iterator.
 pub trait RefKvIterator: RefIteratorBase {
@@ -50,5 +54,17 @@ pub trait RefKvIterator: RefIteratorBase {
         F: FnMut(&Self::K, &Self::V) -> B,
     {
         RefKvMap::new(self, f)
+    }
+}
+
+impl<I> RefKvIterator for Box<I>
+where
+    I: RefKvIterator + ?Sized,
+{
+    type K = I::K;
+    type V = I::V;
+
+    fn next(&mut self) -> Option<(&Self::K, &Self::V)> {
+        self.deref_mut().next()
     }
 }

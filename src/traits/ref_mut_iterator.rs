@@ -3,6 +3,10 @@
 use crate::prelude::*;
 use crate::sub::RefMutMap;
 use crate::util::msg;
+use core::ops::DerefMut;
+
+#[cfg(feature = "alloc")]
+use alloc::boxed::Box;
 
 /// Mutable dynamic borrowing iterator.
 #[must_use = msg::iter_must_use!()]
@@ -47,5 +51,14 @@ pub trait RefMutIterator: RefIterator {
         F: FnMut(&mut Self::Item) -> B,
     {
         RefMutMap::new(self, f)
+    }
+}
+
+impl<I> RefMutIterator for Box<I>
+where
+    I: RefMutIterator + ?Sized,
+{
+    fn next_mut(&mut self) -> Option<&mut Self::Item> {
+        self.deref_mut().next_mut()
     }
 }

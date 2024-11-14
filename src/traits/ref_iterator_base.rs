@@ -2,6 +2,9 @@
 
 use crate::util::msg;
 
+#[cfg(feature = "alloc")]
+use alloc::boxed::Box;
+
 /// Dynamic borrowing iterator base.
 #[must_use = msg::iter_must_use!()]
 pub trait RefIteratorBase {
@@ -23,4 +26,12 @@ pub trait RefIteratorBase {
     fn size_hint(&self) -> (usize, Option<usize>) {
         (0, None)
     }
+}
+
+#[cfg(feature = "alloc")]
+impl<I> RefIteratorBase for Box<I>
+where
+    I: RefIteratorBase + ?Sized,
+{
+    // nop.
 }

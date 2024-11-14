@@ -20,3 +20,7 @@ license.workspace = true
 
 [dependencies]
 ref_iter_macro = { version = "=0.1.0", path = "macros" }
+
+[features]
+default = ["alloc"]
+alloc = []

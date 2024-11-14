@@ -3,6 +3,10 @@
 use crate::prelude::*;
 use crate::sub::{RefCloned, RefMap};
 use crate::util::msg;
+use core::ops::DerefMut;
+
+#[cfg(feature = "alloc")]
+use alloc::boxed::Box;
 
 /// Immutable dynamic borrowing iterator.
 #[must_use = msg::iter_must_use!()]
@@ -105,5 +109,16 @@ pub trait RefIterator: RefIteratorBase {
                 }
             }
         }
+    }
+}
+
+impl<I> RefIterator for Box<I>
+where
+    I: RefIterator + ?Sized,
+{
+    type Item = I::Item;
+
+    fn next(&mut self) -> Option<&Self::Item> {
+        self.deref_mut().next()
     }
 }
