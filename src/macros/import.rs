@@ -19,10 +19,12 @@
 ///
 /// assert_eq!(sum, 6);
 /// ```
-///
-/// # Document from macro crate
-/// <!-- insert -->
-pub use ref_iter_macro::for_ref;
+#[macro_export]
+macro_rules! for_ref {
+    ($($args:tt)*) => {
+        ::ref_iter_macro::for_ref!($($args)*)
+    };
+}
 
 /// Immutable key-value for-in loop with dynamic borrowings.
 ///
@@ -40,10 +42,12 @@ pub use ref_iter_macro::for_ref;
 ///     assert_eq!(*k as f32, *v);
 /// });
 /// ```
-///
-/// # Document from macro crate
-/// <!-- insert -->
-pub use ref_iter_macro::for_ref_kv;
+#[macro_export]
+macro_rules! for_ref_kv {
+    ($($args:tt)*) => {
+        ::ref_iter_macro::for_ref_kv!($($args)*)
+    };
+}
 
 /// Mutable for-in loop with dynamic borrowings.
 ///
@@ -65,10 +69,12 @@ pub use ref_iter_macro::for_ref_kv;
 /// let expecteds = vec![2, 3, 4];
 /// assert_eq!(results, expecteds);
 /// ```
-///
-/// # Document from macro crate
-/// <!-- insert -->
-pub use ref_iter_macro::for_ref_mut;
+#[macro_export]
+macro_rules! for_ref_mut {
+    ($($args:tt)*) => {
+        ::ref_iter_macro::for_ref_mut!($($args)*)
+    };
+}
 
 /// Mutable key-value for-in loop with dynamic borrowings.
 ///
@@ -91,7 +97,9 @@ pub use ref_iter_macro::for_ref_mut;
 ///     assert_eq!(*k as f32, *v);
 /// });
 /// ```
-///
-/// # Document from macro crate
-/// <!-- insert -->
-pub use ref_iter_macro::for_ref_mut_kv;
+#[macro_export]
+macro_rules! for_ref_mut_kv {
+    ($($args:tt)*) => {
+        ::ref_iter_macro::for_ref_mut_kv!($($args)*)
+    };
+}
