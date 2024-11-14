@@ -38,3 +38,4 @@ mod tests_compile_fail;
 pub use sub::*;
 pub use traits::*;
 pub use types::*;
+pub use ref_iter_macro;

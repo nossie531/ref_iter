@@ -22,7 +22,7 @@
 #[macro_export]
 macro_rules! for_ref {
     ($($args:tt)*) => {
-        ::ref_iter_macro::for_ref!($($args)*)
+        $crate::ref_iter_macro::for_ref!($($args)*)
     };
 }
 
@@ -45,7 +45,7 @@ macro_rules! for_ref {
 #[macro_export]
 macro_rules! for_ref_kv {
     ($($args:tt)*) => {
-        ::ref_iter_macro::for_ref_kv!($($args)*)
+        $crate::ref_iter_macro::for_ref_kv!($($args)*)
     };
 }
 
@@ -72,7 +72,7 @@ macro_rules! for_ref_kv {
 #[macro_export]
 macro_rules! for_ref_mut {
     ($($args:tt)*) => {
-        ::ref_iter_macro::for_ref_mut!($($args)*)
+        $crate::ref_iter_macro::for_ref_mut!($($args)*)
     };
 }
 
@@ -100,6 +100,6 @@ macro_rules! for_ref_mut {
 #[macro_export]
 macro_rules! for_ref_mut_kv {
     ($($args:tt)*) => {
-        ::ref_iter_macro::for_ref_mut_kv!($($args)*)
+        $crate::ref_iter_macro::for_ref_mut_kv!($($args)*)
     };
 }
