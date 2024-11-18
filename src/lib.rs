@@ -38,7 +38,7 @@ mod util;
 #[path = "../tests_compile_fail/mod.rs"]
 mod tests_compile_fail;
 
+pub use ref_iter_macro;
 pub use sub::*;
 pub use traits::*;
 pub use types::*;
-pub use ref_iter_macro;
