@@ -35,3 +35,11 @@ where
         self.iter.size_hint()
     }
 }
+
+impl<I> ExactSizeIterator for RefCloned<I>
+where
+    Self: Iterator,
+    I: ExactSizeIterator,
+{
+    // nop.
+}
