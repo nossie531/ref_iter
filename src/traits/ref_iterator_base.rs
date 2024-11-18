@@ -1,4 +1,4 @@
-//! Provider of [`RefIteratorBase`]
+//! Provider of [`RefIteratorBase`].
 
 use crate::util::msg;
 
