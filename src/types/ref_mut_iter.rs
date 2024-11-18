@@ -59,6 +59,14 @@ where
     }
 }
 
+impl<I> ExactSizeRefIterator for RefMutIter<'_, I>
+where
+    Self: RefIteratorBase,
+    I: ExactSizeIterator,
+{
+    // nop.
+}
+
 impl<'a, I, T: 'a> RefIterator for RefMutIter<'a, I>
 where
     I: Iterator<Item = &'a mut T>,

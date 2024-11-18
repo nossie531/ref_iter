@@ -37,3 +37,11 @@ where
         self.iter.size_hint()
     }
 }
+
+impl<I, F> ExactSizeIterator for RefMap<I, F>
+where
+    Self: Iterator,
+    I: ExactSizeIterator,
+{
+    // nop.
+}

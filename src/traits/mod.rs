@@ -1,5 +1,6 @@
 //! Crate's base traits.
 
+mod exact_size_ref_iterator;
 mod into_ref_iterator;
 mod into_ref_kv_iterator;
 mod into_ref_mut_iterator;
@@ -10,6 +11,7 @@ mod ref_kv_iterator;
 mod ref_mut_iterator;
 mod ref_mut_kv_iterator;
 
+pub use exact_size_ref_iterator::*;
 pub use into_ref_iterator::*;
 pub use into_ref_kv_iterator::*;
 pub use into_ref_mut_iterator::*;
