@@ -27,6 +27,7 @@
 #[cfg(feature = "alloc")]
 extern crate alloc;
 
+pub mod closures;
 pub mod macros;
 pub mod prelude;
 

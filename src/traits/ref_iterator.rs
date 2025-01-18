@@ -1,7 +1,8 @@
 //! Provider of [`RefIterator`].
 
+use crate::closures::FnFlatMap;
 use crate::prelude::*;
-use crate::sub::{RefCloned, RefMap};
+use crate::sub::{RefCloned, RefFlatMap, RefMap};
 use crate::util::msg;
 use core::ops::DerefMut;
 
@@ -50,6 +51,33 @@ pub trait RefIterator: RefIteratorBase {
         Self::Item: Clone,
     {
         RefCloned::new(self)
+    }
+
+    /// Creates an iterator that flattens mapped each dynamic borrowing iterators.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// # use ref_iter::prelude::*;
+    /// # use std::cell::RefCell;
+    /// #
+    /// let samples = vec![vec![1, 2], vec![3, 4, 5]];
+    /// let expecteds = vec![1, 2, 3, 4, 5];
+    /// let src = RefCell::new(samples.clone());
+    /// let iter = RefIter::new(src.borrow(), |x| x.iter());
+    /// let iter = iter.flat_map(iter_from_vec);
+    /// assert!(iter.cloned().eq(expecteds.iter().cloned()));
+    ///
+    /// fn iter_from_vec(x: &Vec<i32>) -> impl RefIterator<Item = i32> + '_ {
+    ///     IntoRefIter::new(x.iter())
+    /// }
+    /// ```
+    fn flat_map<'call, F>(self, f: F) -> RefFlatMap<'call, Self, F>
+    where
+        Self: Sized,
+        F: for<'a> FnFlatMap<&'a Self::Item>,
+    {
+        RefFlatMap::new(self, f)
     }
 
     /// Creates an iterator that maps dynamic borrowing elements.

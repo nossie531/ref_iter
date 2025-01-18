@@ -94,7 +94,7 @@ for_ref!(x in iter {
 assert_eq!(sum, 6);
 ```
 
-## Iterator conversion
+## Iterator conversions
 
 The following items provide cross-conversion of normal-iterator
 and lending-iterator.
@@ -118,6 +118,13 @@ Unsafe operation is used.
 
 For example, about `RefIter`.
 
-- Iterators taken from `Ref` are safe to use as long as `Ref` is available.
-- However, borrow checker does not allow to save the iterator with `Ref`.
-- Unsafe operation solves this problem by hiding origin of references.
+* Iterators taken from `Ref` are safe to use as long as `Ref` is available.
+* However, borrow checker does not allow to save the iterator with `Ref`.
+* Unsafe operation solves this problem by hiding origin of references.
+
+## What's new
+
+v0.2.0
+
+* Add `RefIterator::flat_map` method.
+* Fix `ExactSizeRefIterator` base trait.
