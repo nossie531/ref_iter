@@ -29,6 +29,12 @@ extern crate alloc;
 
 pub mod macros;
 pub mod prelude;
+
+pub use ref_iter_macro;
+pub use sub::*;
+pub use traits::*;
+pub use types::*;
+
 mod sub;
 mod traits;
 mod types;
@@ -37,8 +43,3 @@ mod util;
 #[doc(hidden)]
 #[path = "../tests_compile_fail/mod.rs"]
 mod tests_compile_fail;
-
-pub use ref_iter_macro;
-pub use sub::*;
-pub use traits::*;
-pub use types::*;

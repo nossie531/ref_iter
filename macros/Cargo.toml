@@ -1,6 +1,6 @@
 [package]
 name = "ref_iter_macro"
-version = "0.1.0"
+version = "0.1.1"
 description = "Macros for 'ref_iter'."
 authors.workspace = true
 edition.workspace = true
