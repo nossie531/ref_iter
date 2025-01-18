@@ -3,7 +3,7 @@
 use crate::prelude::*;
 
 /// Dynamic borrowing iterator that knows its exact length.
-pub trait ExactSizeRefIterator: RefIteratorBase {
+pub trait ExactSizeRefIterator: RefIterator {
     /// Returns the exact remaining length of the iterator.
     #[inline]
     fn len(&self) -> usize {

@@ -61,7 +61,7 @@ where
 
 impl<I> ExactSizeRefIterator for RefMutIter<'_, I>
 where
-    Self: RefIteratorBase,
+    Self: RefIterator,
     I: ExactSizeIterator,
 {
     // nop.
