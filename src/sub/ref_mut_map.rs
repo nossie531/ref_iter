@@ -3,7 +3,7 @@
 use crate::prelude::*;
 use crate::util::msg;
 
-/// Item mapper for mutable dyanmic borrowing iterator.
+/// An iterator that maps mutable dyanmic borrowing iterator items.
 ///
 /// This struct is created by [`RefMutIterator::map_mut`].
 #[derive(Clone, Debug)]
@@ -16,7 +16,7 @@ pub struct RefMutMap<I, F> {
 }
 
 impl<I, F> RefMutMap<I, F> {
-    /// Create new value.
+    /// Creates a new value.
     pub(crate) fn new(iter: I, f: F) -> Self {
         Self { iter, f }
     }

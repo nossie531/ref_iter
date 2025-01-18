@@ -33,7 +33,7 @@ where
     I: Iterator<Item = &'a T>,
     T: 'a,
 {
-    /// Create a new value.
+    /// Creates a new value.
     pub fn new<A: IntoIterator<IntoIter = I>>(iter: A) -> Self {
         Self {
             iter: iter.into_iter(),

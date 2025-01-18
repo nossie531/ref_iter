@@ -14,7 +14,7 @@ pub struct RefCloned<I> {
 }
 
 impl<I> RefCloned<I> {
-    /// Create new value.
+    /// Creates a new value.
     pub(crate) fn new(iter: I) -> Self {
         Self { iter }
     }

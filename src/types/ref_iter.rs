@@ -28,7 +28,7 @@ pub struct RefIter<'a, I> {
 }
 
 impl<'a, I> RefIter<'a, I> {
-    /// Create a new value.
+    /// Creates a new value.
     pub fn new<S, F>(src: Ref<'a, S>, f: F) -> Self
     where
         S: Any,

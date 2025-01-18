@@ -48,7 +48,7 @@ impl ForRef {
         }))
     }
 
-    /// Create token stream from components.
+    /// Creates token stream from components.
     fn out(
         kind: ForRefKind,
         item: TokenStream,

@@ -11,7 +11,7 @@ pub struct ForRefKind {
 }
 
 impl ForRefKind {
-    /// Create a new value.
+    /// Creates a new value.
     pub fn new(is_mutable: bool, is_for_map: bool) -> Self {
         Self {
             is_mutable,

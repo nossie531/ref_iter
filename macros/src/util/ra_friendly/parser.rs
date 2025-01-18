@@ -13,12 +13,12 @@ pub struct Parser<'a> {
 }
 
 impl<'a> Parser<'a> {
-    /// Create new value.
+    /// Creates a new value.
     pub fn new(base: &'a ParseBuffer<'a>) -> Self {
         Self { base }
     }
 
-    /// Get base object.
+    /// Returns base object.
     pub fn base(&self) -> &ParseBuffer<'_> {
         self.base
     }

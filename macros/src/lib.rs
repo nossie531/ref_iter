@@ -47,7 +47,7 @@ pub fn for_ref_mut_kv(input: pm::TokenStream) -> pm::TokenStream {
     util::translate(input, parser)
 }
 
-/// Create for-in loop parser.
+/// Creates for-in loop parser.
 fn create_for_loop_parser(kind: ForRefKind) -> impl Parser<Output = TokenStream> {
     move |x: &ParseBuffer<'_>| {
         let ret = ForRef::parse(x, kind);

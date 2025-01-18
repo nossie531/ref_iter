@@ -3,7 +3,7 @@
 use crate::prelude::*;
 use crate::util::msg;
 
-/// Item mapper for immutable dyanmic borrowing key-value iterator.
+/// An iterator that maps dyanmic borrowing key-value iterator items.
 ///
 /// This struct is created by [`RefKvIterator::map`].
 #[derive(Clone, Debug)]
@@ -16,7 +16,7 @@ pub struct RefKvMap<I, F> {
 }
 
 impl<I, F> RefKvMap<I, F> {
-    /// Create new value.
+    /// Creates a new value.
     pub(crate) fn new(iter: I, f: F) -> Self {
         Self { iter, f }
     }

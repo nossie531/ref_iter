@@ -13,22 +13,22 @@ pub struct SoftResult<T> {
 }
 
 impl<T> SoftResult<T> {
-    /// Create new value.
+    /// Creates a new value.
     pub fn new(base: Result<T>) -> Self {
         Self { base, alt: None }
     }
 
-    /// Get base object.
+    /// Returns base object.
     pub fn base(&self) -> &Result<T> {
         &self.base
     }
 
-    /// Get error.
+    /// Returns error.
     pub fn err(&self) -> Option<&Error> {
         self.base().as_ref().err()
     }
 
-    /// Get success value.
+    /// Returns success value.
     ///
     /// # Panics
     ///
@@ -37,7 +37,7 @@ impl<T> SoftResult<T> {
         self.base.unwrap()
     }
 
-    /// Set altenative token stream.
+    /// Sets altenative token stream.
     pub fn set_alt(mut self, alt: TokenStream) -> Self {
         let ok = self.base.is_ok();
         self.alt = (!ok).then_some(alt);

@@ -35,7 +35,7 @@ pub struct RefMutIter<'a, I> {
 }
 
 impl<'a, I> RefMutIter<'a, I> {
-    /// Create a new value.
+    /// Creates a new value.
     pub fn new<S, F>(mut src: RefMut<'a, S>, f: F) -> Self
     where
         S: Any,
