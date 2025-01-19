@@ -2,7 +2,7 @@
 
 use crate::closures::FnFlatMap;
 use crate::prelude::*;
-use crate::sub::{RefCloned, RefFlatMap, RefMap};
+use crate::sub::{IConv, RefCloned, RefFlatMap};
 use crate::util::msg;
 use core::ops::DerefMut;
 
@@ -80,7 +80,7 @@ pub trait RefIterator: RefIteratorBase {
         RefFlatMap::new(self, f)
     }
 
-    /// Creates an iterator that maps dynamic borrowing elements.
+    /// Creates an iterator that converts dynamic borrowing elements.
     ///
     /// # Examples
     ///
@@ -91,15 +91,15 @@ pub trait RefIterator: RefIteratorBase {
     /// let samples = vec![1, 2, 3];
     /// let src = RefCell::new(samples.clone());
     /// let iter = RefIter::new(src.borrow(), |x| x.iter());
-    /// let iter = iter.map(|x: &_| x + 1);
+    /// let iter = iter.iconv(|x: &_| x + 1);
     /// assert!(iter.eq(samples.iter().map(|x| x + 1)));
     /// ```
-    fn map<B, F>(self, f: F) -> RefMap<Self, F>
+    fn iconv<B, F>(self, f: F) -> IConv<Self, F>
     where
         Self: Sized,
         F: FnMut(&Self::Item) -> B,
     {
-        RefMap::new(self, f)
+        IConv::new(self, f)
     }
 
     /// Determines if the elements of this is equal to those of another.

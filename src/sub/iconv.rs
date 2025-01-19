@@ -1,36 +1,36 @@
-//! Provider of [`RefMutMap`].
+//! Provider of [`IConv`].
 
 use crate::prelude::*;
 use crate::util::msg;
 
-/// An iterator that maps mutable dyanmic borrowing iterator items.
+/// An iterator that converts dyanmic borrowing iterator items.
 ///
-/// This struct is created by [`RefMutIterator::map_mut`].
+/// This struct is created by [`RefIterator::iconv`].
 #[derive(Clone, Debug)]
 #[must_use = msg::iter_must_use!()]
-pub struct RefMutMap<I, F> {
+pub struct IConv<I, F> {
     /// Base iterator.
     iter: I,
     /// Closure for each item mapping.
     f: F,
 }
 
-impl<I, F> RefMutMap<I, F> {
+impl<I, F> IConv<I, F> {
     /// Creates a new value.
     pub(crate) fn new(iter: I, f: F) -> Self {
         Self { iter, f }
     }
 }
 
-impl<B, I, F> Iterator for RefMutMap<I, F>
+impl<B, I, F> Iterator for IConv<I, F>
 where
-    I: RefMutIterator,
-    F: FnMut(&mut I::Item) -> B,
+    I: RefIterator,
+    F: FnMut(&I::Item) -> B,
 {
     type Item = B;
 
     fn next(&mut self) -> Option<Self::Item> {
-        Some((self.f)(self.iter.next_mut()?))
+        Some((self.f)(self.iter.next()?))
     }
 
     fn size_hint(&self) -> (usize, Option<usize>) {
@@ -38,7 +38,7 @@ where
     }
 }
 
-impl<I, F> ExactSizeIterator for RefMutMap<I, F>
+impl<I, F> ExactSizeIterator for IConv<I, F>
 where
     Self: Iterator,
     I: ExactSizeIterator,
