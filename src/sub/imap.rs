@@ -1,28 +1,28 @@
-//! Provider of [`IConv`].
+//! Provider of [`IMap`].
 
 use crate::prelude::*;
 use crate::util::msg;
 
-/// An iterator that converts dyanmic borrowing iterator items.
+/// An iterator that maps dyanmic borrowing iterator items.
 ///
-/// This struct is created by [`RefIterator::iconv`].
+/// This struct is created by [`RefIterator::imap`].
 #[derive(Clone, Debug)]
 #[must_use = msg::iter_must_use!()]
-pub struct IConv<I, F> {
+pub struct IMap<I, F> {
     /// Base iterator.
     iter: I,
     /// Closure for each item mapping.
     f: F,
 }
 
-impl<I, F> IConv<I, F> {
+impl<I, F> IMap<I, F> {
     /// Creates a new value.
     pub(crate) fn new(iter: I, f: F) -> Self {
         Self { iter, f }
     }
 }
 
-impl<B, I, F> Iterator for IConv<I, F>
+impl<B, I, F> Iterator for IMap<I, F>
 where
     I: RefIterator,
     F: FnMut(&I::Item) -> B,
@@ -38,7 +38,7 @@ where
     }
 }
 
-impl<I, F> ExactSizeIterator for IConv<I, F>
+impl<I, F> ExactSizeIterator for IMap<I, F>
 where
     Self: Iterator,
     I: ExactSizeIterator,

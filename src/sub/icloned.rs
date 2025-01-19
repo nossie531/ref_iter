@@ -1,26 +1,26 @@
-//! Provider of [`RefCloned`].
+//! Provider of [`ICloned`].
 
 use crate::prelude::*;
 use crate::util::msg;
 
 /// An iterator that clones elements of dynamic borrowing iterator.
 ///
-/// This struct is created by [`RefIterator::cloned`].
+/// This struct is created by [`RefIterator::icloned`].
 #[derive(Clone, Debug)]
 #[must_use = msg::iter_must_use!()]
-pub struct RefCloned<I> {
+pub struct ICloned<I> {
     /// Base iterator.
     iter: I,
 }
 
-impl<I> RefCloned<I> {
+impl<I> ICloned<I> {
     /// Creates a new value.
     pub(crate) fn new(iter: I) -> Self {
         Self { iter }
     }
 }
 
-impl<I> Iterator for RefCloned<I>
+impl<I> Iterator for ICloned<I>
 where
     I: RefIterator,
     I::Item: Clone,
@@ -36,7 +36,7 @@ where
     }
 }
 
-impl<I> ExactSizeIterator for RefCloned<I>
+impl<I> ExactSizeIterator for ICloned<I>
 where
     Self: Iterator,
     I: ExactSizeIterator,

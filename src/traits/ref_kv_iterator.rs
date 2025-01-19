@@ -1,7 +1,7 @@
 //! Provider of [`RefKvIterator`].
 
 use crate::prelude::*;
-use crate::KvIConv;
+use crate::KvIMap;
 use core::ops::DerefMut;
 
 #[cfg(feature = "alloc")]
@@ -33,7 +33,7 @@ pub trait RefKvIterator: RefIteratorBase {
     /// ```
     fn next(&mut self) -> Option<(&Self::K, &Self::V)>;
 
-    /// Creates an iterator that converts dynamic borrowing elements.
+    /// Creates an iterator that maps dynamic borrowing elements.
     ///
     /// # Examples
     ///
@@ -45,15 +45,15 @@ pub trait RefKvIterator: RefIteratorBase {
     /// let samples = HashMap::from([(1, 10), (2, 20)]);
     /// let src = RefCell::new(samples.clone());
     /// let iter = RefIter::new(src.borrow(), |x| x.iter());
-    /// let iter = iter.iconv(|k, v| k + v);
+    /// let iter = iter.imap(|k, v| k + v);
     /// assert!(iter.eq(samples.iter().map(|x| x.0 + x.1)));
     /// ```
-    fn iconv<B, F>(self, f: F) -> KvIConv<Self, F>
+    fn imap<B, F>(self, f: F) -> KvIMap<Self, F>
     where
         Self: Sized,
         F: FnMut(&Self::K, &Self::V) -> B,
     {
-        KvIConv::new(self, f)
+        KvIMap::new(self, f)
     }
 }
 

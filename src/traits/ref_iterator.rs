@@ -2,7 +2,7 @@
 
 use crate::closures::FnIFlatMap;
 use crate::prelude::*;
-use crate::sub::{IConv, RefCloned, IFlatMap};
+use crate::sub::{ICloned, IFlatMap, IMap};
 use crate::util::msg;
 use core::ops::DerefMut;
 
@@ -43,14 +43,14 @@ pub trait RefIterator: RefIteratorBase {
     /// let samples = vec![1, 2, 3];
     /// let src = RefCell::new(samples.clone());
     /// let iter = RefIter::new(src.borrow(), |x| x.iter());
-    /// assert!(iter.cloned().eq(samples.iter().cloned()));
+    /// assert!(iter.icloned().eq(samples.iter().cloned()));
     /// ```
-    fn cloned(self) -> RefCloned<Self>
+    fn icloned(self) -> ICloned<Self>
     where
         Self: Sized,
         Self::Item: Clone,
     {
-        RefCloned::new(self)
+        ICloned::new(self)
     }
 
     /// Creates an iterator that flattens mapped each dynamic borrowing iterators.
@@ -67,7 +67,7 @@ pub trait RefIterator: RefIteratorBase {
     /// let iter = RefIter::new(src.borrow(), |x| x.iter());
     /// let iter = iter.iflat_map(vec_iter);
     /// assert!(iter.eq(expecteds.iter().cloned()));
-    /// 
+    ///
     /// fn vec_iter(x: &Vec<i32>) -> impl Iterator<Item = i32> + '_ {
     ///     x.iter().cloned()
     /// }
@@ -80,7 +80,7 @@ pub trait RefIterator: RefIteratorBase {
         IFlatMap::new(self, f)
     }
 
-    /// Creates an iterator that converts dynamic borrowing elements.
+    /// Creates an iterator that maps dynamic borrowing elements.
     ///
     /// # Examples
     ///
@@ -91,15 +91,15 @@ pub trait RefIterator: RefIteratorBase {
     /// let samples = vec![1, 2, 3];
     /// let src = RefCell::new(samples.clone());
     /// let iter = RefIter::new(src.borrow(), |x| x.iter());
-    /// let iter = iter.iconv(|x: &_| x + 1);
+    /// let iter = iter.imap(|x: &_| x + 1);
     /// assert!(iter.eq(samples.iter().map(|x| x + 1)));
     /// ```
-    fn iconv<B, F>(self, f: F) -> IConv<Self, F>
+    fn imap<B, F>(self, f: F) -> IMap<Self, F>
     where
         Self: Sized,
         F: FnMut(&Self::Item) -> B,
     {
-        IConv::new(self, f)
+        IMap::new(self, f)
     }
 
     /// Determines if the elements of this is equal to those of another.

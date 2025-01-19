@@ -100,9 +100,10 @@ The following items provide cross-conversion of normal-iterator
 and lending-iterator.
 
 **Lending -> Normal**
-* `RefIterator::cloned()`
-* `RefIterator::iconv(f)`
-* `RefKvIterator::iconv(f)`
+* `RefIterator::icloned()`
+* `RefIterator::iflatmap(f)`
+* `RefIterator::imap(f)`
+* `RefKvIterator::imap(f)`
 
 **Normal -> Lending**
 * `IntoRefIter::new(i)`
@@ -121,6 +122,14 @@ For example, about `RefIter`.
 * Unsafe operation solves this problem by hiding origin of references.
 
 ## What's new
+
+v0.3.0
+
+* Add `RefIterator::iflat_map`
+* Obsolete `RefIterator::flat_map`
+* Rename `RefIterator::iconv` to `imap`
+* Rename `RefKvIterator::iconv` to `imap`
+* Rename `RefIterator::cloned` to `icloned`
 
 v0.2.0
 

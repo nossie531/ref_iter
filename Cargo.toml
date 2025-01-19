@@ -9,7 +9,7 @@ license = "MIT OR Apache-2.0"
 
 [package]
 name = "ref_iter"
-version = "0.2.0"
+version = "0.3.0"
 description = "Dynamic borrowing iterator."
 keywords = ["Ref", "RefMut", "RefCell", "Iterator"]
 categories = ["no-std", "rust-patterns"]

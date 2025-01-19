@@ -6,7 +6,7 @@ pub type FnIFlatMapIter<F, I> = <<F as FnIFlatMap<I>>::Out as IntoIterator>::Int
 /// Item output from map function and its input.
 pub type FnIFlatMapItem<F, I> = <<F as FnIFlatMap<I>>::Out as IntoIterator>::Item;
 
-/// Closure for [`RefIterator::flat_map`] operation.
+/// Closure for [`RefIterator::iflat_map`](crate::RefIterator::iflat_map) operation.
 pub trait FnIFlatMap<I>: FnMut(I) -> Self::Out {
     /// Output type.
     type Out: IntoIterator;

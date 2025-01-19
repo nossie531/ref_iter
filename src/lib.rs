@@ -18,7 +18,7 @@
 //! let samples = vec![1, 2, 3];
 //! let src = RefCell::new(samples.clone());
 //! let iter = RefIter::new(src.borrow(), |x| x.iter());
-//! assert!(iter.cloned().eq(samples.iter().cloned()));
+//! assert!(iter.icloned().eq(samples.iter().cloned()));
 //! ```
 
 #![warn(missing_docs)]

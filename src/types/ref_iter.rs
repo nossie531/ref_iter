@@ -16,7 +16,7 @@ use core::cell::Ref;
 /// let samples = vec![1, 2, 3];
 /// let cell = RefCell::new(samples.clone());
 /// let iter = RefIter::new(cell.borrow(), |x| x.iter());
-/// assert!(iter.cloned().eq(samples.iter().cloned()));
+/// assert!(iter.icloned().eq(samples.iter().cloned()));
 /// ```
 #[derive(Debug)]
 #[must_use = msg::iter_must_use!()]

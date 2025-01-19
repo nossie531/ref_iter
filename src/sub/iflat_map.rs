@@ -1,4 +1,4 @@
-//! Provider of [`RefFlatMap`].
+//! Provider of [`IFlatMap`].
 
 use crate::closures::{FnIFlatMap, FnIFlatMapItem, FnIFlatMapIter};
 use crate::prelude::*;
