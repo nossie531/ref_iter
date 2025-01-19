@@ -37,7 +37,33 @@ where
     /// Advance base iterator and returns next sub iterator.
     fn next_sub_iter(&mut self) -> Option<FnFlatMapIter<F, &'this I::Item>> {
         let ret = (self.f)(self.iter.next()?).into_ref_iter();
-        Some(unsafe { mem::transmute(ret) })
+        Some(unsafe { Self::adjust_sub_iter(ret) })
+    }
+
+    /// Adjust item lifetime.
+    unsafe fn adjust_item<'a>(
+        x: Option<&'_ FnFlatMapItem<F, &'this I::Item>>,
+    ) -> Option<&'a FnFlatMapItem<F, &'this I::Item>> {
+        #[rustfmt::skip]
+        return unsafe {
+            mem::transmute::<
+                Option<&'_ _>,
+                Option<&'a _>
+            >(x)
+        };
+    }
+
+    /// Adjust sub iterator lifetime.
+    unsafe fn adjust_sub_iter<'a>(
+        x: FnFlatMapIter<F, &'_ I::Item>,
+    ) -> FnFlatMapIter<F, &'a I::Item> {
+        #[rustfmt::skip]
+        return {
+            mem::transmute::<
+                FnFlatMapIter<F, &'_ _>,
+                FnFlatMapIter<F, &'a _>
+            >(x)
+        };
     }
 }
 
@@ -94,10 +120,9 @@ where
         }
 
         loop {
-            let sub_iter = self.sub_iter.as_mut().unwrap();
-            let item = sub_iter.next();
+            let item = self.sub_iter.as_mut().unwrap().next();
             if item.is_some() {
-                return unsafe { mem::transmute(item) };
+                return unsafe { Self::adjust_item(item) };
             }
 
             self.sub_iter = Some(self.next_sub_iter()?);
