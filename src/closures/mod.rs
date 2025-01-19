@@ -1,5 +1,5 @@
 //! Crate's closures.
 
-pub use fn_flat_map::*;
+pub use fn_iflat_map::*;
 
-mod fn_flat_map;
+mod fn_iflat_map;
