@@ -103,8 +103,6 @@ and lending-iterator.
 * `RefIterator::cloned()`
 * `RefIterator::iconv(f)`
 * `RefKvIterator::iconv(f)`
-* `RefMutIterator::iconv_mut(f)`
-* `RefMutKvIterator::iconv_mut(f)`
 
 **Normal -> Lending**
 * `IntoRefIter::new(i)`
@@ -129,6 +127,6 @@ v0.2.0
 * Add `RefIterator::flat_map`
 * Rename `RefIterator::map` to `iconv`
 * Rename `RefKvIterator::map` to `iconv`
-* Rename `RefMutIterator::map_mut` to `iconv_mut`
-* Rename `RefMutKvIterator::map_mut` to `iconv_mut`
+* Obsolete `RefMutIterator::map_mut`
+* Obsolete `RefMutKvIterator::map_mut`
 * Fix `ExactSizeRefIterator` base trait.
