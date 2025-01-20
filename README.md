@@ -20,7 +20,7 @@ for dynamic borrowing objects ([`Ref`] and [`RefMut`]).
 let samples = vec![1, 2, 3];
 let src = RefCell::new(samples.clone());
 let iter = RefIter::new(src.borrow(), |x| x.iter());
-assert!(iter.cloned().eq(samples.iter().cloned()));
+assert!(iter.icloned().eq(samples.iter().cloned()));
 ```
 
 ## Main items
@@ -122,6 +122,10 @@ For example, about `RefIter`.
 * Unsafe operation solves this problem by hiding origin of references.
 
 ## What's new
+
+v0.3.1
+
+* Fix documentation
 
 v0.3.0
 
