@@ -1,9 +1,9 @@
 //! Provider of [`ForRef`].
 
 use crate::tree::ForRefKind;
-use crate::util::ra_friendly::{errors, Parser, SoftResult};
+use crate::util::ra_friendly::{Parser, SoftResult, errors};
 use proc_macro2::TokenStream;
-use quote::{quote, ToTokens};
+use quote::{ToTokens, quote};
 use syn::parse::{Parse, ParseStream};
 use syn::token::In;
 use syn::{Expr, Pat};

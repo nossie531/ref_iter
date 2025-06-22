@@ -45,7 +45,7 @@ where
         x: FnIFlatMapIter<F, &'_ I::Item>,
     ) -> FnIFlatMapIter<F, &'a I::Item> {
         #[rustfmt::skip]
-        return {
+        return unsafe {
             mem::transmute::<
                 FnIFlatMapIter<F, &'_ _>,
                 FnIFlatMapIter<F, &'a _>

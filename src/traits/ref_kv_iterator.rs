@@ -1,7 +1,7 @@
 //! Provider of [`RefKvIterator`].
 
-use crate::prelude::*;
 use crate::KvIMap;
+use crate::prelude::*;
 use core::ops::DerefMut;
 
 #[cfg(feature = "alloc")]

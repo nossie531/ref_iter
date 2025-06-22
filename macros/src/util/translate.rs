@@ -2,8 +2,8 @@
 
 use proc_macro as pm;
 use proc_macro2::TokenStream;
-use syn::parse::Parser;
 use syn::Error;
+use syn::parse::Parser;
 
 /// Translate macro input with parser.
 pub fn translate<F>(input: pm::TokenStream, f: F) -> pm::TokenStream

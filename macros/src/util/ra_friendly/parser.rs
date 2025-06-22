@@ -2,7 +2,7 @@
 
 use crate::util::ra_friendly::SoftResult;
 use proc_macro2::{Delimiter, Group, TokenStream, TokenTree};
-use quote::{quote, ToTokens, TokenStreamExt};
+use quote::{ToTokens, TokenStreamExt, quote};
 use syn::parse::{Parse, ParseBuffer, ParseStream};
 use syn::{Block, Expr, Pat, Result};
 

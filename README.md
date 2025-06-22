@@ -123,6 +123,10 @@ For example, about `RefIter`.
 
 ## What's new
 
+v0.4.0
+
+* Rust edition is updated to 2024.
+
 v0.3.1
 
 * Fix documentation
