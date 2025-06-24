@@ -9,7 +9,7 @@ license = "MIT OR Apache-2.0"
 
 [package]
 name = "ref_iter"
-version = "0.4.0"
+version = "0.4.1"
 description = "Dynamic borrowing iterator."
 keywords = ["Ref", "RefMut", "RefCell", "Iterator"]
 categories = ["no-std", "rust-patterns"]
@@ -19,7 +19,7 @@ repository.workspace = true
 license.workspace = true
 
 [dependencies]
-ref_iter_macro = { version = "=0.3.0", path = "macros" }
+ref_iter_macro = { version = "=0.3.1", path = "macros" }
 
 [features]
 default = ["alloc"]
