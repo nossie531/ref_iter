@@ -121,33 +121,6 @@ For example, about `RefIter`.
 * However, borrow checker does not allow to save the iterator with `Ref`.
 * Unsafe operation solves this problem by hiding origin of references.
 
-## What's new
+## Versions
 
-v0.4.1
-
-* Minor refactoring
-
-v0.4.0
-
-* Rust edition is updated to 2024
-
-v0.3.1
-
-* Fix documentation
-
-v0.3.0
-
-* Add `RefIterator::iflat_map`
-* Obsolete `RefIterator::flat_map`
-* Rename `RefIterator::iconv` to `imap`
-* Rename `RefKvIterator::iconv` to `imap`
-* Rename `RefIterator::cloned` to `icloned`
-
-v0.2.0
-
-* Add `RefIterator::flat_map`
-* Rename `RefIterator::map` to `iconv`
-* Rename `RefKvIterator::map` to `iconv`
-* Obsolete `RefMutIterator::map_mut`
-* Obsolete `RefMutKvIterator::map_mut`
-* Fix `ExactSizeRefIterator` base trait.
+See the [CHANGELOG](CHANGELOG.md).
