@@ -123,4 +123,4 @@ For example, about `RefIter`.
 
 ## Versions
 
-See the [CHANGELOG](CHANGELOG.md).
+See [CHANGELOG](CHANGELOG.md).
