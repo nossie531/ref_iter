@@ -1,10 +1,9 @@
-ref_iter
-===
+# ref_iter
 
 Dynamic borrowing iterator.
 
-*The author of this crate is not good at English.*  
-*Forgive me if the document is hard to read.*
+_The author of this crate is not good at English._  
+_Forgive me if the document is hard to read._
 
 ## What is this?
 
@@ -26,14 +25,20 @@ assert!(iter.icloned().eq(samples.iter().cloned()));
 ## Main items
 
 **Traits**
-* `RefIterator` - Immutable dynamic borrowing iterator.
-* `RefKvIterator` - Immutable dynamic borrowing key-value iterator.
-* `RefMutIterator` - Mutable dynamic borrowing iterator.
-* `RefMutKvIterator` - Mutable dynamic borrowing key-value iterator.
+- `RefIterator` - Immutable dynamic borrowing iterator.
+- `RefKvIterator` - Immutable dynamic borrowing key-value iterator.
+- `RefMutIterator` - Mutable dynamic borrowing iterator.
+- `RefMutKvIterator` - Mutable dynamic borrowing key-value iterator.
 
 **Types**
-* `RefIter` - Iterator from `Ref`.
-* `RefMutIter` - Iterator from `RefMut`.
+- `RefIter` - Iterator from `Ref`.
+- `RefMutIter` - Iterator from `RefMut`.
+
+**Macros**
+- `for_ref` - Immutable loop.
+- `for_ref_kv` - Immutable key-value loop.
+- `for_ref_mut` - Mutable loop.
+- `for_ref_mut_kv` - Mutable key-value loop.
 
 ## Lending-iterator
 
@@ -46,11 +51,11 @@ with the destruction of dynamic borrowing.
 Note lending-iterator does not implement [`Iterator`].
 So, followings are not supported.
 
-* For-in loop syntax 
-* Various methods of `Iterator` 
+- For-in loop syntax
+- Various methods of `Iterator`
 
 However, these are not so big problems. Because, instead of for-in loop,
-[loop macros](#loop-macros) is supported. Instead of iterator methods,
+[loop macros](#loop-macros) are supported. Instead of iterator methods,
 [iterator conversion](#iterator-conversion) is supported. And also,
 we can use iterator methods at lending-iterator construction.
 
@@ -72,14 +77,7 @@ traits. for example, `RefMutIterator` will be merged into `RefIterator`.
 
 ## Loop macros
 
-Followings are macros to perform for-in loops with various lending-iterator.
-
-* `for_ref` - Immutable loop.
-* `for_ref_kv` - Immutable key-value loop.
-* `for_ref_mut` - Mutable loop.
-* `for_ref_mut_kv` - Mutable key-value loop.
-
-For example, `for_ref` macro can be used as follows.
+`for_XXX` macro can be used like for-in loop syntax.
 
 ```rust
 let samples = vec![1, 2, 3];
@@ -100,16 +98,16 @@ The following items provide cross-conversion of normal-iterator
 and lending-iterator.
 
 **Lending -> Normal**
-* `RefIterator::icloned()`
-* `RefIterator::iflatmap(f)`
-* `RefIterator::imap(f)`
-* `RefKvIterator::imap(f)`
+- `RefIterator::icloned()`
+- `RefIterator::iflatmap(f)`
+- `RefIterator::imap(f)`
+- `RefKvIterator::imap(f)`
 
 **Normal -> Lending**
-* `IntoRefIter::new(i)`
-* `IntoRefMutIter::new(i)`
-* `RefIter::new(s, f)`
-* `RefMutIter::new(s, f)`
+- `IntoRefIter::new(i)`
+- `IntoRefMutIter::new(i)`
+- `RefIter::new(s, f)`
+- `RefMutIter::new(s, f)`
 
 ## Under the hood
 
@@ -117,10 +115,10 @@ Unsafe operation is used.
 
 For example, about `RefIter`.
 
-* Iterators taken from `Ref` are safe to use as long as `Ref` is available.
-* However, borrow checker does not allow to save the iterator with `Ref`.
-* Unsafe operation solves this problem by hiding origin of references.
+- Iterators taken from `Ref` are safe to use as long as `Ref` is available.
+- However, borrow checker does not allow to save the iterator with `Ref`.
+- Unsafe operation solves this problem by hiding origin of references.
 
-## Versions
+## History
 
 See [CHANGELOG](CHANGELOG.md).

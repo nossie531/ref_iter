@@ -1,7 +1,7 @@
 //! Dynamic borrowing iterator.
 //!
-//! *The author of this crate is not good at English.*
-//! *Forgive me if the document is hard to read.*
+//! _The author of this crate is not good at English._  
+//! _Forgive me if the document is hard to read._
 //!
 //! This crate provides lending iterator for dynamic
 //! borrowing objects ([`Ref`] and [`RefMut`]).

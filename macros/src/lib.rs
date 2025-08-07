@@ -1,7 +1,7 @@
 //! Procedual macros for crate `ref_iter`.
 //!
-//! *The author of this crate is not good at English.*
-//! *Forgive me if the document is hard to read.*
+//! _The author of this crate is not good at English._  
+//! _Forgive me if the document is hard to read._
 
 #![warn(missing_docs)]
 #![warn(clippy::missing_docs_in_private_items)]
